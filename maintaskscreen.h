@@ -2,6 +2,7 @@
 #define MAINTASKSCREEN_H
 
 #include <QDialog>
+#include "tasksettings.h"
 
 // Predefine class to avoid recursive calling/inheritance from main.cpp
 class MainWindow;
@@ -22,9 +23,12 @@ public:
 private slots:
     void on_LogoutBtn_clicked();
 
+    void on_AddTaskSettingsBtn_clicked();
+
 private:
     Ui::MainTaskScreen *ui;
     MainWindow *mainWindow; // Pointer to mainwindow so you can return
+    TaskSettings *taskSettings;
 };
 
 #endif // MAINTASKSCREEN_H

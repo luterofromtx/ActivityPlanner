@@ -21,3 +21,10 @@ void MainTaskScreen::on_LogoutBtn_clicked()
     mainWindow->show(); //Return to main login page
 }
 
+
+void MainTaskScreen::on_AddTaskSettingsBtn_clicked()
+{
+    taskSettings = new TaskSettings(this); // Open create account page
+    taskSettings->show();
+}
+
