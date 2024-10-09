@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
 #include "createaccount.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +25,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    CreateAccount *createAccount;
+    CreateAccount *createAccount; // Pointer to createaccount ui
 };
 #endif // MAINWINDOW_H

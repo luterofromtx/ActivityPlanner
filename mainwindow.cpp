@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -21,7 +22,7 @@ void MainWindow::on_LoginBtn_clicked()
 
     // Test case login
     if(username == "test" && password == "test") {
-
+        QMessageBox::information(this, "Login", "Logged in with debug base user");
     }
 }
 
