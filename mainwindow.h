@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "createaccount.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -17,7 +19,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_LoginBtn_clicked();
+
+    void on_CreateAccountBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
+    CreateAccount *createAccount;
 };
 #endif // MAINWINDOW_H
