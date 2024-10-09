@@ -1,12 +1,12 @@
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
 
+#include <QCalendarWidget>
+#include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QCalendarWidget>
-#include <QLineEdit>
-#include <QLabel>
 
 class TaskManager : public QMainWindow
 {
@@ -21,7 +21,7 @@ private slots:
     void addTask();
 
 private:
-    QLineEdit *taskNameInput;  // Input field for task name
+    QLineEdit *taskNameInput;   // Input field for task name
     QCalendarWidget *calendar;  // Calendar for task deadlines
     QLabel *taskListLabel;      // Label to display the task list
     QPushButton *addTaskButton; // Button to add a task

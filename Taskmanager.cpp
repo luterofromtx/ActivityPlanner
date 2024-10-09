@@ -29,21 +29,17 @@ TaskManager::TaskManager(QWidget *parent)
     setCentralWidget(centralWidget);
 }
 
-TaskManager::~TaskManager()
-{
-}
+TaskManager::~TaskManager() {}
 
 void TaskManager::addTask()
 {
     QString taskName = taskNameInput->text();
     QString deadline = calendar->selectedDate().toString("yyyy-MM-dd");
 
-    if (!taskName.isEmpty())
-    {
+    if (!taskName.isEmpty()) {
         // Append task name and deadline to the task list label
         QString currentTasks = taskListLabel->text();
-        if (currentTasks == "No tasks available.")
-        {
+        if (currentTasks == "No tasks available.") {
             currentTasks.clear();
         }
         currentTasks += taskName + " - Due: " + deadline + "\n";
