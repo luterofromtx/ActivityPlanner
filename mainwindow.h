@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "createaccount.h"
+#include "maintaskscreen.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,5 +27,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     CreateAccount *createAccount; // Pointer to createaccount ui
+    MainTaskScreen *mainTaskScreen;
 };
 #endif // MAINWINDOW_H

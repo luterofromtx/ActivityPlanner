@@ -23,14 +23,18 @@ void MainWindow::on_LoginBtn_clicked()
     // Test case login
     if(username == "test" && password == "test") {
         QMessageBox::information(this, "Login", "Logged in with debug base user");
+        hide();
+        mainTaskScreen = new MainTaskScreen(this);
+        mainTaskScreen->show();
+
     }
 }
 
 // Create new account button
 void MainWindow::on_CreateAccountBtn_clicked()
 {
-    hide();
-    createAccount = new CreateAccount(this);
+    hide(); // Hide login page
+    createAccount = new CreateAccount(this); // Open create account page
     createAccount->show();
 }
 

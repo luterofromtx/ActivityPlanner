@@ -24,6 +24,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         createaccount.h createaccount.cpp createaccount.ui
+
+        maintaskscreen.h maintaskscreen.cpp maintaskscreen.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET ActivityPlanner APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
