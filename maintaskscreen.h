@@ -7,7 +7,6 @@
 // Predefine class to avoid recursive calling/inheritance from main.cpp
 class MainWindow;
 
-
 namespace Ui {
 class MainTaskScreen;
 }

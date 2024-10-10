@@ -17,4 +17,3 @@ void TaskSettings::on_CloseTaskBtn_clicked()
 {
     hide();
 }
-
