@@ -1,6 +1,6 @@
 #include "maintaskscreen.h"
-#include "ui_maintaskscreen.h"
 #include "mainwindow.h"
+#include "ui_maintaskscreen.h"
 
 MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
@@ -15,16 +15,43 @@ MainTaskScreen::~MainTaskScreen()
     delete ui;
 }
 
+// Logout User button
 void MainTaskScreen::on_LogoutBtn_clicked()
 {
-    hide(); // Hide create account
-    mainWindow->show(); //Return to main login page
+    // Log user out and return to main login page (currently only hides ui and doesnt logout)
+    hide();
+    mainWindow->show();
 }
 
-
+// Open Add new task page button
 void MainTaskScreen::on_AddTaskSettingsBtn_clicked()
 {
-    taskSettings = new TaskSettings(this); // Open create account page
+    // Open add new task ui
+    taskSettings = new TaskSettings(this);
     taskSettings->show();
+}
+
+// Open settings/notification center
+void MainTaskScreen::on_SettingsBtn_clicked()
+{
+    // Show notification settings ui (Update this to save and load user settings)
+    // Currently only opens fresh page of settings
+    notifications = new Notifications(this);
+    notifications->show();
+}
+
+// Specific Date double clicked
+void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
+{
+    // Open settings for selected date
+    dateSettings = new DateSettings(this);
+    dateSettings->show();
+}
+
+// Open big calendar button
+void MainTaskScreen::on_OpenCalenderBtn_clicked()
+{
+    largeCalendar = new LargeCalendar(this);
+    largeCalendar->show();
 }
 

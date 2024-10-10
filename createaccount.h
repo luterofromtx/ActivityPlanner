@@ -15,7 +15,9 @@ class CreateAccount : public QDialog
     Q_OBJECT
 
 public:
-    explicit CreateAccount(MainWindow *mainWindow, QWidget *parent = nullptr); //Constructor with pointer to mainwindow so you can return
+    explicit CreateAccount(
+        MainWindow *mainWindow,
+        QWidget *parent = nullptr); //Constructor with pointer to mainwindow so you can return
     ~CreateAccount();
 
 private slots:
@@ -24,7 +26,6 @@ private slots:
 private:
     Ui::CreateAccount *ui;
     MainWindow *mainWindow; // Pointer to mainwindow so you can return
-
 };
 
 #endif // CREATEACCOUNT_H

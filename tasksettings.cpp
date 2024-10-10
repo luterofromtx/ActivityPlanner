@@ -13,8 +13,8 @@ TaskSettings::~TaskSettings()
     delete ui;
 }
 
+// Close current new task settings
 void TaskSettings::on_CloseTaskBtn_clicked()
 {
     hide();
 }
-

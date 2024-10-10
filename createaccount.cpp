@@ -2,7 +2,8 @@
 #include "mainwindow.h"
 #include "ui_createaccount.h"
 
-CreateAccount::CreateAccount(MainWindow *mainWindow, QWidget *parent) // Constructor using pointer to main login window
+CreateAccount::CreateAccount(MainWindow *mainWindow,
+                             QWidget *parent) // Constructor using pointer to main login window
     : QDialog(parent)
     , ui(new Ui::CreateAccount)
     , mainWindow(mainWindow) // Login window pointer
@@ -17,7 +18,7 @@ CreateAccount::~CreateAccount()
 
 void CreateAccount::on_BackBtn_clicked()
 {
-    hide(); // Hide create account
-    mainWindow->show(); //Return to main login page
+    // Cancel create account and return to main login
+    hide();
+    mainWindow->show();
 }
-

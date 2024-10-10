@@ -27,6 +27,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         maintaskscreen.h maintaskscreen.cpp maintaskscreen.ui
         tasksettings.h tasksettings.cpp tasksettings.ui
+        notifications.h notifications.cpp notifications.ui
+        datesettings.h datesettings.cpp datesettings.ui
+        forgotpassword.h forgotpassword.cpp forgotpassword.ui
+        largecalendar.h largecalendar.cpp largecalendar.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET ActivityPlanner APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
