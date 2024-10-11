@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include <QMessageBox>
 #include "./ui_mainwindow.h"
+#include "maintaskscreen.h"
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,14 +23,60 @@ void MainWindow::on_LoginBtn_clicked()
 {
     QString username = ui->lineEditUsername->text();
     QString password = ui->lineEditPassword->text();
+    QString usernameCompare;
+    QString passwordCompare;
 
-    // Test case login
-    if (username == "test" && password == "test") {
-        QMessageBox::information(this, "Login", "Logged in with debug base user");
-        hide();
-        mainTaskScreen = new MainTaskScreen(this);
-        mainTaskScreen->show();
+    //Check if any account has been made
+    QDir root;
+    if(!root.exists("Users"))
+    {
+        QMessageBox::critical(this, "Error", "Please create an account first.");
+        return;
     }
+    else
+    {
+        qInfo() << "Users folder already exists, skipping...";
+        QString usernameFile = "./Users/" + username + "Cred.txt";
+        //Locate file if exists
+        QFile userFile(usernameFile);
+        if(!userFile.exists())
+        {
+            QMessageBox::critical(this, "Error", "Invalid credentials. Please try again.");
+        }
+        else
+        {
+            if(!userFile.open(QIODevice::ReadOnly))
+            {
+                QMessageBox::critical(this, "Error", "Sorry, this user file got too weird so it did not open.");
+            }
+            else
+            {
+                QTextStream stream(&userFile); //Parsing file
+                while(!stream.atEnd())
+                {
+                    usernameCompare = stream.readLine();
+                    passwordCompare = stream.readLine();
+                }
+                if(usernameCompare==username && passwordCompare==password)//Testing login validity
+                {
+                    QMessageBox::about(this,"Activity Planner", "Login successful!");
+                    //Hide login screen and show main task screen
+                    userFile.close();
+                    this->hide();
+                    MainTaskScreen *taskScreen = new MainTaskScreen(this);
+                    taskScreen->show();
+
+                }
+                else
+                {
+                    QMessageBox::critical(this, "Error", "Invalid login. Please try again.");
+                }
+            }
+        }
+
+    }
+
+
 }
 
 // Create new account button

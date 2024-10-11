@@ -23,6 +23,8 @@ public:
 private slots:
     void on_BackBtn_clicked(); // Back Btn
 
+    void on_CreateAccountBtn_clicked();
+
 private:
     Ui::CreateAccount *ui;
     MainWindow *mainWindow; // Pointer to mainwindow so you can return
