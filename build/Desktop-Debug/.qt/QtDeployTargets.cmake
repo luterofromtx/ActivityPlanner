@@ -1,2 +1,0 @@
-set(__QT_DEPLOY_TARGET_ActivityPlanner_FILE /home/lutero/School/QT Applications/ActivityPlanner/build/Desktop-Debug/ActivityPlanner)
-set(__QT_DEPLOY_TARGET_ActivityPlanner_TYPE EXECUTABLE)
