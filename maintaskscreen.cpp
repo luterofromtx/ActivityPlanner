@@ -1,6 +1,7 @@
 #include "maintaskscreen.h"
 #include "mainwindow.h"
 #include "ui_maintaskscreen.h"
+#include "currentuser.h"
 
 MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
@@ -53,5 +54,38 @@ void MainTaskScreen::on_OpenCalenderBtn_clicked()
 {
     largeCalendar = new LargeCalendar(this);
     largeCalendar->show();
+}
+
+// Quick add new task button
+void MainTaskScreen::on_QuickAddBtn_clicked()
+{
+    // Get Basic info for quick add
+    QString taskName = ui->lineEditTaskName->text();
+    QString taskDesc = ui->lineEditDesc->text();
+    QString taskDeadline = ui->lineEditDeadline->text();
+
+    Task newtask(taskName, taskDesc, taskDeadline); // Construct new task with basic given info and put in temp user
+    CurrentUser tempUser;
+    tempUser.addTask(newtask);
+
+    // Temp labels
+
+    ui->TaskNameT->setText(taskName);
+    ui->TaskDeadlineT->setText(taskDeadline);
+    ui->DoneBtnT->setFixedSize(151, 24);
+
+}
+
+
+// Temp Done button for task
+void MainTaskScreen::on_DoneBtnT_clicked()
+{
+    ui->TaskNameT->setText("");
+    ui->TaskDeadlineT->setText(" ");
+    ui->DoneBtnT->setFixedSize(0, 0);
+
+    ui->TaskDeadlineT2->setText(ui->lineEditDeadline->text());
+    ui->TaskNameT2->setText(ui->lineEditTaskName->text());
+    ui->CompletedT->setText("Completed");
 }
 

@@ -1,6 +1,6 @@
 #include "forgotpassword.h"
-#include "ui_forgotpassword.h"
 #include "mainwindow.h"
+#include "ui_forgotpassword.h"
 
 ForgotPassword::ForgotPassword(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
@@ -22,4 +22,3 @@ void ForgotPassword::on_CancelBtn_clicked()
     hide();
     mainWindow->show();
 }
-

@@ -17,7 +17,7 @@ DateSettings::~DateSettings()
 void DateSettings::on_CloseBtn_clicked()
 {
     hide();
-} //hide nowww
+}
 
 // Add new task button
 void DateSettings::on_AddTaskBtn_clicked()
@@ -26,4 +26,3 @@ void DateSettings::on_AddTaskBtn_clicked()
     taskSettings = new TaskSettings(this);
     taskSettings->show();
 }
-

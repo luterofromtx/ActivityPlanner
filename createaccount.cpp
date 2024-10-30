@@ -1,7 +1,6 @@
 #include "createaccount.h"
 #include "mainwindow.h"
 #include "ui_createaccount.h"
-#include "maintaskscreen.h"
 #include <QMessageBox>
 #include <QFile>
 #include <QDir>

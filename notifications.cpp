@@ -18,4 +18,3 @@ void Notifications::on_CloseBtn_clicked()
 {
     hide();
 }
-

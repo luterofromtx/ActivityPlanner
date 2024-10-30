@@ -75,8 +75,6 @@ void MainWindow::on_LoginBtn_clicked()
         }
 
     }
-
-
 }
 
 // Create new account button
@@ -96,4 +94,3 @@ void MainWindow::on_ForgotPasswordBtn_clicked()
     forgotPassword = new ForgotPassword(this);
     forgotPassword->show();
 }
-

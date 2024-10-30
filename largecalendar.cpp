@@ -26,4 +26,3 @@ void LargeCalendar::on_calendarWidget_activated(const QDate &date)
     dateSettings = new DateSettings(this);
     dateSettings->show();
 }
-

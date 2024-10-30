@@ -2,10 +2,10 @@
 #define MAINTASKSCREEN_H
 
 #include <QDialog>
-#include "tasksettings.h"
-#include "notifications.h"
 #include "datesettings.h"
 #include "largecalendar.h"
+#include "notifications.h"
+#include "tasksettings.h"
 
 // Predefine class to avoid recursive calling/inheritance from main.cpp
 class MainWindow;
@@ -33,14 +33,17 @@ private slots:
 
     void on_OpenCalenderBtn_clicked();
 
+    void on_QuickAddBtn_clicked();
+
+    void on_DoneBtnT_clicked();
+
 private:
     Ui::MainTaskScreen *ui;
-    MainWindow *mainWindow; // Pointer to mainwindow so you can return
-    TaskSettings *taskSettings; // Pointer to add new task ui
+    MainWindow *mainWindow;       // Pointer to mainwindow so you can return
+    TaskSettings *taskSettings;   // Pointer to add new task ui
     Notifications *notifications; // Pointer to notficiation settings ui
-    DateSettings *dateSettings; // Pointer to date settings ui
+    DateSettings *dateSettings;   // Pointer to date settings ui
     LargeCalendar *largeCalendar; // Pointer to large calendar ui
-
 };
 
 #endif // MAINTASKSCREEN_H
