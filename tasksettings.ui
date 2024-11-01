@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>30</y>
+     <y>0</y>
      <width>571</width>
      <height>381</height>
     </rect>
@@ -33,7 +33,7 @@
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
-   <widget class="QPushButton" name="SaveTaskBtn">
+   <widget class="QPushButton" name="SaveTaskSettingBtn">
     <property name="geometry">
      <rect>
       <x>440</x>
@@ -51,7 +51,7 @@
      <string>Save</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="CloseTaskBtn">
+   <widget class="QPushButton" name="CloseTaskSettingBtn">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -75,14 +75,14 @@
       <x>250</x>
       <y>280</y>
       <width>51</width>
-      <height>21</height>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Time:</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="TimercheckBox">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -95,7 +95,7 @@
      <string>Enable Timer</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="TimerCountDown">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -105,11 +105,11 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="DescriptionLine">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>170</y>
       <width>531</width>
       <height>81</height>
      </rect>
@@ -126,24 +126,28 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="Task">
        <property name="text">
         <string>Task:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLineEdit" name="Taskname">
        <property name="text">
-        <string>Date:</string>
+        <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Date: YYYY-MM-DD</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="DateGiven"/>
      </item>
      <item>
       <widget class="QLabel" name="label_4">
@@ -153,6 +157,19 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>260</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&quot;00:00:00&quot;</string>
+    </property>
    </widget>
   </widget>
  </widget>

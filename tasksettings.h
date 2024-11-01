@@ -2,6 +2,9 @@
 #define TASKSETTINGS_H
 
 #include <QDialog>
+#include <QString>
+#include <QDebug> // Include for debugging
+
 
 namespace Ui {
 class TaskSettings;
@@ -15,8 +18,20 @@ public:
     explicit TaskSettings(QWidget *parent = nullptr);
     ~TaskSettings();
 
+    // Getter methods to retrieve user input
+    QString getTaskname() const;
+    QString getTaskDeadline() const;
+    QString getTaskDescription() const;
+signals:
+    void taskSaved(const QString &taskName, const QString &taskDeadline, const QString &taskDescription);
+
 private slots:
-    void on_CloseTaskBtn_clicked();
+    void on_SaveTaskSettingBtn_clicked(bool checked);
+    void on_CloseTaskSettingBtn_clicked(bool checked);
+    void on_Taskname_textEdited(const QString &arg1);
+    void on_DateGiven_textEdited(const QString &arg1);
+    void on_DescriptionLine_textEdited(const QString &arg1);
+    void on_TimercheckBox_clicked(bool checked);
 
 private:
     Ui::TaskSettings *ui;

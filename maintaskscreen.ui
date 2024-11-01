@@ -56,14 +56,20 @@
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>20</y>
-      <width>531</width>
-      <height>261</height>
+      <width>551</width>
+      <height>271</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>541</width>
+      <height>0</height>
+     </size>
+    </property>
     <property name="rowCount">
-     <number>5</number>
+     <number>10</number>
     </property>
     <property name="columnCount">
      <number>3</number>
@@ -94,6 +100,11 @@
     <row/>
     <row/>
     <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
     <column>
      <property name="text">
       <string>Task</string>
@@ -106,7 +117,7 @@
     </column>
     <column>
      <property name="text">
-      <string/>
+      <string>Description</string>
      </property>
     </column>
    </widget>
@@ -136,7 +147,7 @@
      </rect>
     </property>
     <property name="text">
-     <string> </string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="TaskNameT">
@@ -149,7 +160,23 @@
      </rect>
     </property>
     <property name="text">
-     <string> </string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>511</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Horizontal</enum>
     </property>
    </widget>
   </widget>
@@ -227,7 +254,7 @@
      </rect>
     </property>
     <property name="text">
-     <string> </string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="TaskNameT2">
@@ -240,7 +267,7 @@
      </rect>
     </property>
     <property name="text">
-     <string> </string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="TaskDeadlineT2">
@@ -253,7 +280,7 @@
      </rect>
     </property>
     <property name="text">
-     <string> </string>
+     <string/>
     </property>
    </widget>
   </widget>

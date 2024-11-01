@@ -1,7 +1,9 @@
 #include "maintaskscreen.h"
-#include "mainwindow.h"
 #include "ui_maintaskscreen.h"
-#include "currentuser.h"
+#include "mainwindow.h"
+#include <QDebug>
+#include "task.h"
+#include "tasksettings.h"
 
 MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
@@ -9,83 +11,87 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     , mainWindow(mainWindow)
 {
     ui->setupUi(this);
+    ui->tableWidget->setColumnCount(3);
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
 }
 
-MainTaskScreen::~MainTaskScreen()
-{
-    delete ui;
-}
 
-// Logout User button
 void MainTaskScreen::on_LogoutBtn_clicked()
 {
-    // Log user out and return to main login page (currently only hides ui and doesnt logout)
     hide();
     mainWindow->show();
 }
-
-// Open Add new task page button
 void MainTaskScreen::on_AddTaskSettingsBtn_clicked()
 {
-    // Open add new task ui
     taskSettings = new TaskSettings(this);
-    taskSettings->show();
+
+    // Connect the signal emitted when the task is saved to the slot that adds it to the checklist
+    connect(taskSettings, &TaskSettings::taskSaved, this, &MainTaskScreen::addTaskToChecklist, Qt::UniqueConnection);
+
+    // Show the TaskSettings dialog
+    taskSettings->exec(); // This will handle showing the dialog and checking the result
 }
 
-// Open settings/notification center
+void MainTaskScreen::addTaskToChecklist(const QString &taskName, const QString &taskDeadline, const QString &taskDescription)
+{
+    int rowCount = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(rowCount);
+
+    QTableWidgetItem *taskNameItem = new QTableWidgetItem(taskName);
+    QTableWidgetItem *taskDeadlineItem = new QTableWidgetItem(taskDeadline);
+    QTableWidgetItem *taskDescriptionItem = new QTableWidgetItem(taskDescription);
+
+    ui->tableWidget->setItem(rowCount, 0, taskNameItem);
+    ui->tableWidget->setItem(rowCount, 1, taskDeadlineItem);
+    ui->tableWidget->setItem(rowCount, 2, taskDescriptionItem);
+
+    // Optional: Align the text and enable text wrapping
+    taskNameItem->setTextAlignment(Qt::AlignTop | Qt::AlignLeft);
+    taskDeadlineItem->setTextAlignment(Qt::AlignTop | Qt::AlignLeft);
+    taskDescriptionItem->setTextAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+    qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline << ", Description =" << taskDescription;
+}
+
+
+
+
 void MainTaskScreen::on_SettingsBtn_clicked()
 {
-    // Show notification settings ui (Update this to save and load user settings)
-    // Currently only opens fresh page of settings
     notifications = new Notifications(this);
     notifications->show();
 }
 
-// Specific Date double clicked
 void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
 {
-    // Open settings for selected date
-    dateSettings = new DateSettings(this);
-    dateSettings->show();
+    // Calendar interaction logic (keep this if you need it for other purposes)
 }
 
-// Open big calendar button
 void MainTaskScreen::on_OpenCalenderBtn_clicked()
 {
     largeCalendar = new LargeCalendar(this);
     largeCalendar->show();
 }
 
-// Quick add new task button
 void MainTaskScreen::on_QuickAddBtn_clicked()
 {
-    // Get Basic info for quick add
     QString taskName = ui->lineEditTaskName->text();
     QString taskDesc = ui->lineEditDesc->text();
     QString taskDeadline = ui->lineEditDeadline->text();
 
-    Task newtask(taskName, taskDesc, taskDeadline); // Construct new task with basic given info and put in temp user
-    CurrentUser tempUser;
-    tempUser.addTask(newtask);
-
-    // Temp labels
-
+    // Display quick-added task details
     ui->TaskNameT->setText(taskName);
     ui->TaskDeadlineT->setText(taskDeadline);
-    ui->DoneBtnT->setFixedSize(151, 24);
-
 }
 
-
-// Temp Done button for task
 void MainTaskScreen::on_DoneBtnT_clicked()
 {
-    ui->TaskNameT->setText("");
-    ui->TaskDeadlineT->setText(" ");
-    ui->DoneBtnT->setFixedSize(0, 0);
-
-    ui->TaskDeadlineT2->setText(ui->lineEditDeadline->text());
-    ui->TaskNameT2->setText(ui->lineEditTaskName->text());
+    ui->TaskNameT->clear();
+    ui->TaskDeadlineT->clear();
     ui->CompletedT->setText("Completed");
+}
+MainTaskScreen::~MainTaskScreen()
+{
+    delete ui;
 }
 

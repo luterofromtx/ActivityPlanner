@@ -23,7 +23,6 @@ private slots:
 
 private:
     Ui::LargeCalendar *ui;
-    DateSettings *dateSettings; // Pointer for date settings ui
 };
 
 #endif // LARGECALENDAR_H
