@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void UpdateUserMain(QString username, QVector<Task> openTasks, QVector<Task> closedTasks);
 
 private slots:
     void on_LoginBtn_clicked();

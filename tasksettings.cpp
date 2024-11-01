@@ -1,9 +1,10 @@
 #include "tasksettings.h"
-#include "ui_tasksettings.h"
 #include <QDebug>
+#include "ui_tasksettings.h"
 
 TaskSettings::TaskSettings(QWidget *parent)
-    : QDialog(parent), ui(new Ui::TaskSettings)
+    : QDialog(parent)
+    , ui(new Ui::TaskSettings)
 {
     ui->setupUi(this);
 }
@@ -39,7 +40,6 @@ QString TaskSettings::getTaskDescription() const
 {
     return ui->DescriptionLine->text();
 }
-
 
 void TaskSettings::on_CloseTaskSettingBtn_clicked(bool checked)
 {

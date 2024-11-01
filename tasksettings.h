@@ -1,10 +1,9 @@
 #ifndef TASKSETTINGS_H
 #define TASKSETTINGS_H
 
+#include <QDebug> // Include for debugging
 #include <QDialog>
 #include <QString>
-#include <QDebug> // Include for debugging
-
 
 namespace Ui {
 class TaskSettings;
@@ -23,7 +22,9 @@ public:
     QString getTaskDeadline() const;
     QString getTaskDescription() const;
 signals:
-    void taskSaved(const QString &taskName, const QString &taskDeadline, const QString &taskDescription);
+    void taskSaved(const QString &taskName,
+                   const QString &taskDeadline,
+                   const QString &taskDescription);
 
 private slots:
     void on_SaveTaskSettingBtn_clicked(bool checked);

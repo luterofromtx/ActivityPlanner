@@ -1,7 +1,7 @@
 
 #include "largecalendar.h"
-#include "ui_largecalendar.h"
 #include "tasksettings.h"
+#include "ui_largecalendar.h"
 
 LargeCalendar::LargeCalendar(QWidget *parent)
     : QDialog(parent)
@@ -22,7 +22,4 @@ void LargeCalendar::on_CloseBtn_clicked()
 }
 
 // Open settings for double clicked date
-void LargeCalendar::on_calendarWidget_activated(const QDate &date)
-{
-
-}
+void LargeCalendar::on_calendarWidget_activated(const QDate &date) {}

@@ -2,9 +2,10 @@
 #define MAINTASKSCREEN_H
 
 #include <QDialog>
-#include "tasksettings.h"
 #include "largecalendar.h"
 #include "notifications.h"
+#include "tasksettings.h"
+#include "currentuser.h"
 
 // Forward declaration of MainWindow to avoid circular dependency
 class MainWindow;
@@ -29,8 +30,9 @@ private slots:
     void on_OpenCalenderBtn_clicked();
     void on_QuickAddBtn_clicked();
     void on_DoneBtnT_clicked();
-    void addTaskToChecklist(const QString &taskName, const QString &taskDeadline, const QString &taskDescription);
-
+    void addTaskToChecklist(const QString &taskName,
+                            const QString &taskDeadline,
+                            const QString &taskDescription);
 
 private:
     Ui::MainTaskScreen *ui;
