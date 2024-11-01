@@ -121,12 +121,10 @@ void MainTaskScreen::on_DoneBtnT_clicked()
     ui->TaskDeadlineT->clear();
     ui->CompletedT->setText("Completed");
 
+    // Complete tasks
     QString taskName;
     QVector<Task> *openTable = currentUser.getTasks(0);
-
-
-
-
+    QVector<Task> *closedTable = currentUser.getTasks(1);
 
 
 }
