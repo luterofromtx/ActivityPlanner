@@ -1,4 +1,3 @@
-
 #ifndef CURRENTUSER_H
 #define CURRENTUSER_H
 

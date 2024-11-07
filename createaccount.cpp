@@ -47,12 +47,24 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     } else {
         qInfo() << "Users folder already exists, skipping...";
     }
-    //Name new user file after username and save to path
-    QString newUserFile = "./Users/" + newUsername + "Cred.txt";
+
+    QDir userDir("Users");
+    if(!userDir.exists(newUsername)) {
+        userDir.mkdir(newUsername);
+        QDir dir(newUsername);
+        qInfo() << "Created" << dir.absolutePath();
+    } else {
+        qInfo() << newUsername + " folder already exists, skipping...";
+    }
+
+    //Name new user files and add to path
+    QString newUserFile = "./Users/" + newUsername + "/" + newUsername + "Cred.txt";
+    QString newUserOpenTasks = "./Users/" + newUsername + "/" + newUsername + "OpenTasks.txt";
+    QString newUserClosedTasks = "./Users/" + newUsername + "/" + newUsername + "ClosedTasks.txt";
 
     QFile file(newUserFile);
     if (!file.open(QIODevice::ReadWrite)) {
-        qCritical() << "Could not open file!";
+        qCritical() << newUserFile << ": Could not open file!";
         qCritical() << file.errorString();
     } else {
         QTextStream stream(&file);
@@ -64,6 +76,23 @@ void CreateAccount::on_CreateAccountBtn_clicked()
         qDebug() << "Account created, file saved.";
         QMessageBox::about(this, "Activity Planner", "Account created successfully!");
     }
+
+    QFile openTasksFile(newUserOpenTasks);
+    if(!openTasksFile.open(QIODevice::ReadWrite)) {
+        qCritical() << newUserOpenTasks << ": Could not open file!";
+        qCritical() << openTasksFile.errorString();
+    } else {
+        openTasksFile.close();
+    }
+
+    QFile closedTasksFile(newUserClosedTasks);
+    if(!closedTasksFile.open(QIODevice::ReadWrite)) {
+        qCritical() << newUserClosedTasks << ": Could not open file!";
+        qCritical() << closedTasksFile.errorString();
+    } else {
+        openTasksFile.close();
+    }
+
     this->hide();
     mainWindow->show(); //Go back to login screen on completing new account
 }
