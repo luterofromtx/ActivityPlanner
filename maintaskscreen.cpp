@@ -23,11 +23,13 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
 
     // Set up tableWidget with three columns for tasks
     ui->tableWidget->setColumnCount(3);
-    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList()
+                                               << "Task Name" << "Deadline" << "Description");
 
     // Set up tableWidget_2 with three columns for completed tasks
     ui->tableWidget_2->setColumnCount(3);
-    ui->tableWidget_2->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
+    ui->tableWidget_2->setHorizontalHeaderLabels(QStringList()
+                                                 << "Task Name" << "Deadline" << "Description");
 
     // Connect buttons
     connect(ui->Completed,
@@ -79,10 +81,19 @@ void MainTaskScreen::addTaskToChecklist(const QString &taskName,
                                         const QString &taskDescription)
 {
     ui->tableWidget->insertRow(0);
-    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task" : taskName));
-    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline" : taskDeadline));
-    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(taskDescription.isEmpty() ? "No description" : taskDescription));
-    qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline << ", Description =" << taskDescription;
+    ui->tableWidget->setItem(0,
+                             0,
+                             new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task" : taskName));
+    ui->tableWidget->setItem(0,
+                             1,
+                             new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline"
+                                                                         : taskDeadline));
+    ui->tableWidget->setItem(0,
+                             2,
+                             new QTableWidgetItem(taskDescription.isEmpty() ? "No description"
+                                                                            : taskDescription));
+    qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline
+             << ", Description =" << taskDescription;
 }
 
 void MainTaskScreen::on_QuickAddBtn_clicked()
@@ -140,8 +151,12 @@ void MainTaskScreen::on_Completed_clicked()
     }
 
     QString taskName = taskNameItem->text();
-    QString taskDeadline = taskDeadlineItem && !taskDeadlineItem->text().isEmpty() ? taskDeadlineItem->text() : "No deadline";
-    QString taskDescription = taskDescriptionItem && !taskDescriptionItem->text().isEmpty() ? taskDescriptionItem->text() : "No description";
+    QString taskDeadline = taskDeadlineItem && !taskDeadlineItem->text().isEmpty()
+                               ? taskDeadlineItem->text()
+                               : "No deadline";
+    QString taskDescription = taskDescriptionItem && !taskDescriptionItem->text().isEmpty()
+                                  ? taskDescriptionItem->text()
+                                  : "No description";
 
     currentUser.closeTask(taskName); // Move open task into closed task for current user
 

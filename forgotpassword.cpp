@@ -43,7 +43,7 @@ void ForgotPassword::on_ConfirmBtn_clicked()
         return;
     }
     QDir user;
-    if (!user.exists(username)) {
+    if (!user.exists("Users/" + username)) {
         QMessageBox::critical(this, "Error", "Username specified does not exist.");
         return;
     }
