@@ -34,7 +34,7 @@ private slots:
     void addTaskToChecklist(const QString &taskName,
                             const QString &taskDeadline,
                             const QString &taskDescription);
-
+    void UpdateMainUI();
 private:
     Ui::MainTaskScreen *ui;
     MainWindow *mainWindow;       // Pointer to MainWindow for navigation

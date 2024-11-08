@@ -12,6 +12,35 @@ void UpdateUserMain(QString username, QVector<Task> openTasks, QVector<Task> clo
     currentUser.UpdateUser(username, openTasks, closedTasks);
 }
 
+void MainTaskScreen::UpdateMainUI() {
+    // Open tasks
+    QVector<Task> openTasks = currentUser.getTasks(0);
+    QVector<Task> closedTasks = currentUser.getTasks(1);
+    for(int i=0;i<openTasks.size();++i) {
+        // Task ui value setup
+        QString name, deadline, desc;
+        name = openTasks[i].getTaskname();
+        deadline = openTasks[i].getDeadline();
+        desc = openTasks[i].getDescription();
+
+        addTaskToChecklist(name, deadline, desc);
+    }
+
+    // Closed Tasks
+    for(int i=0;i<closedTasks.size();++i) {
+        // Task ui value setup
+        QString name, deadline, desc;
+        name = closedTasks[i].getTaskname();
+        deadline = closedTasks[i].getDeadline();
+        desc = closedTasks[i].getDescription();
+
+        ui->tableWidget_2->insertRow(0);
+        ui->tableWidget_2->setItem(0, 0, new QTableWidgetItem(name));
+        ui->tableWidget_2->setItem(0, 1, new QTableWidgetItem(deadline));
+        ui->tableWidget_2->setItem(0, 2, new QTableWidgetItem(desc));
+    }
+}
+
 MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainTaskScreen)
