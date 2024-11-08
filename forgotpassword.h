@@ -21,6 +21,8 @@ public:
 private slots:
     void on_CancelBtn_clicked();
 
+    void on_ConfirmBtn_clicked();
+
 private:
     Ui::ForgotPassword *ui;
     MainWindow *mainWindow; // Pointer to return to main login page

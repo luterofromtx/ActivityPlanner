@@ -1,4 +1,3 @@
-
 #ifndef CURRENTUSER_H
 #define CURRENTUSER_H
 
@@ -12,9 +11,12 @@ public:
     CurrentUser();
     void UpdateUser(QString username1, QVector<Task> openTasks1, QVector<Task> closedTasks1);
     void addTask(Task newTask); // Add new task to openTasks
-    void closeTask();
-    QVector<Task> *getTasks(
-        int vector);      // Access opentasks with 0 and closed tasks with 1 as vector value
+    void closeTask(QString newTask);
+    int findTask(QVector<Task> taskTable, QString taskToFind);
+    void printTable(QVector<Task> taskTable);
+
+
+    QVector<Task> *getTasks(int vector);      // Access opentasks with 0 and closed tasks with 1 as vector value
     int size(int vector); // Return size of Qvector/array
 
 private:

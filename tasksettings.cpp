@@ -64,15 +64,3 @@ void TaskSettings::on_DescriptionLine_textEdited(const QString &arg1)
     // Logic for handling text editing in DateGiven field, if needed
     qDebug() << "Date given edited:" << arg1;
 }
-
-void TaskSettings::on_TimercheckBox_clicked(bool checked)
-{
-    // Logic for handling the TimerCheckBox click event
-    if (checked) {
-        qDebug() << "TimerCheckBox is checked.";
-        // Additional logic when the checkbox is checked
-    } else {
-        qDebug() << "TimerCheckBox is unchecked.";
-        // Additional logic when the checkbox is unchecked
-    }
-}

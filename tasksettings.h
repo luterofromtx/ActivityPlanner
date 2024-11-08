@@ -32,7 +32,6 @@ private slots:
     void on_Taskname_textEdited(const QString &arg1);
     void on_DateGiven_textEdited(const QString &arg1);
     void on_DescriptionLine_textEdited(const QString &arg1);
-    void on_TimercheckBox_clicked(bool checked);
 
 private:
     Ui::TaskSettings *ui;

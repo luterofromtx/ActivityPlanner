@@ -33,7 +33,7 @@ void MainWindow::on_LoginBtn_clicked()
         return;
     } else {
         qInfo() << "Users folder already exists, skipping...";
-        QString usernameFile = "./Users/" + username + "Cred.txt";
+        QString usernameFile = "./Users/" + username + "/" + username + "Cred.txt";
         //Locate file if exists
         QFile userFile(usernameFile);
         if (!userFile.exists()) {
