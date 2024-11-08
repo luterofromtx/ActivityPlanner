@@ -5,142 +5,176 @@
 #include "tasksettings.h"
 #include "ui_maintaskscreen.h"
 
-// Global `currentUser` instance that stores the current user's information
-CurrentUser currentUser;  
+// Global object for storing current user details
+CurrentUser currentUser;
 
-// Updates the user's information in `currentUser` with new tasks
+// Updates current user’s main info with open and closed tasks
 void UpdateUserMain(QString username, QVector<Task> openTasks, QVector<Task> closedTasks)
 {
-    currentUser.UpdateUser(username, openTasks, closedTasks);  // Update `currentUser` data
+    // Updates user data in `currentUser`
+    currentUser.UpdateUser(username, openTasks, closedTasks);
 }
 
-// Constructor for MainTaskScreen: sets up UI, initializes table headers and columns
+// Constructor for MainTaskScreen, setting up UI and connections
 MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainTaskScreen)
     , mainWindow(mainWindow)
+    , selectedRowForCompletion(-1) // Initialize as -1 to mean "no row selected"
+    , selectedRowForClear(-1)      // Same for clear row
 {
-    ui->setupUi(this);  // Sets up the main UI
-    // Initialize the main task table with 3 columns: Task Name, Deadline, Description
+    ui->setupUi(this);
+
+    // Set up the task table (tableWidget) with 3 columns
     ui->tableWidget->setColumnCount(3);
     ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
+
+    // Set up completed task table (tableWidget_2) with 3 columns
+    ui->tableWidget_2->setColumnCount(3);
+    ui->tableWidget_2->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
+
+    // Connect Completed button click to `on_Completed_clicked` function
+    connect(ui->Completed, &QPushButton::clicked, this, &MainTaskScreen::on_Completed_clicked, Qt::UniqueConnection);
+
+    // Connect ClearCompleted button click to `on_ClearCompleted_clicked` function
+    connect(ui->ClearCompleted, &QPushButton::clicked, this, &MainTaskScreen::on_ClearCompleted_clicked, Qt::UniqueConnection);
+
+    // Track selected row in tableWidget (tasks) when a row is clicked
+    connect(ui->tableWidget, &QTableWidget::itemClicked, this, [=](QTableWidgetItem *item) {
+        selectedRowForCompletion = item->row(); // Store selected row for completion action
+        qDebug() << "Selected row for completion updated to:" << selectedRowForCompletion;
+    });
+
+    // Track selected row in tableWidget_2 (completed tasks) when a row is clicked
+    connect(ui->tableWidget_2, &QTableWidget::itemClicked, this, [=](QTableWidgetItem *item) {
+        selectedRowForClear = item->row(); // Store selected row for clearing action
+        qDebug() << "Selected row for clearing updated to:" << selectedRowForClear;
+    });
+
+    // Disable sorting to keep rows in manual order
+    ui->tableWidget->setSortingEnabled(false);
+    ui->tableWidget_2->setSortingEnabled(false);
 }
 
-// Logs out and returns to the main window
+// Handles logout button click to close the screen and show main window
 void MainTaskScreen::on_LogoutBtn_clicked()
 {
-    hide();  // Hides the task screen
-    mainWindow->show();  // Shows the main window (log-in screen)
+    hide(); // Hide current screen
+    mainWindow->show(); // Show main window
 }
 
-// Opens the TaskSettings dialog to add a new task
+// Handles AddTask button to open TaskSettings dialog for adding new tasks
 void MainTaskScreen::on_AddTaskSettingsBtn_clicked()
 {
     taskSettings = new TaskSettings(this);
-
-    // Connects the `taskSaved` signal from `TaskSettings` to `addTaskToChecklist`
-    connect(taskSettings,
-            &TaskSettings::taskSaved,
-            this,
-            &MainTaskScreen::addTaskToChecklist,
-            Qt::UniqueConnection);
-
-    // Executes the TaskSettings dialog (blocks other interactions until this closes)
-    taskSettings->exec();
+    // When task is saved, call `addTaskToChecklist`
+    connect(taskSettings, &TaskSettings::taskSaved, this, &MainTaskScreen::addTaskToChecklist, Qt::UniqueConnection);
+    taskSettings->exec(); // Open task settings dialog
 }
 
-// Adds a task to the checklist table in the UI
+// Adds task details to tableWidget (task list) at the top
 void MainTaskScreen::addTaskToChecklist(const QString &taskName, const QString &taskDeadline, const QString &taskDescription)
 {
-    int rowCount = ui->tableWidget->rowCount();  // Gets the current number of rows in the table
-    ui->tableWidget->insertRow(rowCount);  // Inserts a new row at the end of the table
-
-    // Creates new table items for each task field
-    QTableWidgetItem *taskNameItem = new QTableWidgetItem(taskName);
-    QTableWidgetItem *taskDeadlineItem = new QTableWidgetItem(taskDeadline);
-    QTableWidgetItem *taskDescriptionItem = new QTableWidgetItem(taskDescription);
-
-    // Adds the items to the row at the respective columns
-    ui->tableWidget->setItem(rowCount, 0, taskNameItem);
-    ui->tableWidget->setItem(rowCount, 1, taskDeadlineItem);
-    ui->tableWidget->setItem(rowCount, 2, taskDescriptionItem);
-
-    // Aligns text to top-left in each cell for readability
-    taskNameItem->setTextAlignment(Qt::AlignTop | Qt::AlignLeft);
-    taskDeadlineItem->setTextAlignment(Qt::AlignTop | Qt::AlignLeft);
-    taskDescriptionItem->setTextAlignment(Qt::AlignTop | Qt::AlignLeft);
-
-    // Debugging: Logs the task added to the console
-    qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline
-             << ", Description =" << taskDescription;
+    ui->tableWidget->insertRow(0); // Add new row at the top
+    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task" : taskName));
+    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline" : taskDeadline));
+    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(taskDescription.isEmpty() ? "No description" : taskDescription));
+    qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline << ", Description =" << taskDescription;
 }
 
-// Quick add button for adding a task with minimal input
+// Adds a quick task from input fields and clears inputs after adding
 void MainTaskScreen::on_QuickAddBtn_clicked()
 {
-    // Get task details from input fields
     QString taskName = ui->lineEditTaskName->text();
     QString taskDeadline = ui->lineEditDeadline->text();
     QString taskDescription = ui->lineEditDesc->text();
-
-    // Displays the task details in the preview section
-    ui->TaskNameT->setText(taskName);
-    ui->TaskDeadlineT->setText(taskDeadline);
-
-    // Creates a new Task and adds it to the current user's open tasks
-    Task newTask(taskName, taskDescription, taskDeadline);  // New task created with user input
-    currentUser.addTask(newTask);  // Adds new task to user's open tasks vector
+    addTaskToChecklist(taskName, taskDeadline, taskDescription); // Add task
+    // Clear input fields for new entries
+    ui->lineEditTaskName->clear();
+    ui->lineEditDeadline->clear();
+    ui->lineEditDesc->clear();
 }
 
-// Opens notifications settings dialog
+// Opens settings dialog for notifications
 void MainTaskScreen::on_SettingsBtn_clicked()
 {
-    notifications = new Notifications(this);  // Creates a new Notifications dialog
-    notifications->show();  // Shows the notifications dialog on top of the task screen
+    notifications = new Notifications(this);
+    notifications->show(); // Show notifications settings
 }
 
-// Opens a large calendar view (specific functionality not implemented here)
-void MainTaskScreen::on_OpenCalenderBtn_clicked()
+// Clears the selected row in completed tasks (tableWidget_2)
+void MainTaskScreen::on_ClearCompleted_clicked()
 {
-    largeCalendar = new LargeCalendar(this);  // Creates a new LargeCalendar dialog
-    largeCalendar->show();  // Shows the large calendar dialog
+    if (selectedRowForClear == -1) {
+        qDebug() << "No completed task selected to clear.";
+        return;
+    }
+    // Remove the selected row from completed tasks
+    ui->tableWidget_2->removeRow(selectedRowForClear);
+    qDebug() << "Cleared row " << selectedRowForClear << " from completed tasks (tableWidget_2).";
+    selectedRowForClear = -1; // Reset selection
 }
 
-// Event that triggers when a calendar date is activated (open-ended for future logic)
+// Moves a selected task to the completed list (tableWidget_2) and removes from main task list
+void MainTaskScreen::on_Completed_clicked()
+{
+    if (selectedRowForCompletion == -1) {
+        qDebug() << "No task selected to mark as complete.";
+        return;
+    }
+    // Get task details from selected row in tableWidget
+    QTableWidgetItem *taskNameItem = ui->tableWidget->item(selectedRowForCompletion, 0);
+    QTableWidgetItem *taskDeadlineItem = ui->tableWidget->item(selectedRowForCompletion, 1);
+    QTableWidgetItem *taskDescriptionItem = ui->tableWidget->item(selectedRowForCompletion, 2);
+
+    // Check if task name exists, otherwise don't move it
+    if (!taskNameItem || taskNameItem->text().isEmpty()) {
+        qDebug() << "Task Name is required to mark a task as complete. Task not moved.";
+        return;
+    }
+
+    // Get values from selected row with default text if empty
+    QString taskName = taskNameItem->text();
+    QString taskDeadline = taskDeadlineItem && !taskDeadlineItem->text().isEmpty() ? taskDeadlineItem->text() : "No deadline";
+    QString taskDescription = taskDescriptionItem && !taskDescriptionItem->text().isEmpty() ? taskDescriptionItem->text() : "No description";
+
+    // Insert the task at the top of completed tasks (tableWidget_2)
+    ui->tableWidget_2->insertRow(0);
+    ui->tableWidget_2->setItem(0, 0, new QTableWidgetItem(taskName));
+    ui->tableWidget_2->setItem(0, 1, new QTableWidgetItem(taskDeadline));
+    ui->tableWidget_2->setItem(0, 2, new QTableWidgetItem(taskDescription));
+    qDebug() << "Task moved to completed table: Name =" << taskName << ", Deadline =" << taskDeadline << ", Description =" << taskDescription;
+
+    // Remove the task from the main task list and reset selection
+    ui->tableWidget->removeRow(selectedRowForCompletion);
+    selectedRowForCompletion = -1;
+}
+
+// Function triggered when a date is selected on the calendar widget
 void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
 {
-    // Placeholder for interacting with calendar events
+    // Interaction code if any for calendar
 }
 
-// Marks a task as done by clearing the temporary input fields in the UI
-void MainTaskScreen::on_DoneBtnT_clicked()
+// Opens the large calendar dialog
+void MainTaskScreen::on_OpenCalenderBtn_clicked()
 {
-    ui->TaskNameT->clear();  // Clears the task name field
-    ui->TaskDeadlineT->clear();  // Clears the deadline field
-    ui->CompletedT->setText("Completed");  // Sets a status message as "Completed"
-
-    // Retrieves tasks from current user (specific completion logic not implemented)
-    QString taskName;
-    QVector<Task> *openTable = currentUser.getTasks(0);  // Open tasks
-    QVector<Task> *closedTable = currentUser.getTasks(1);  // Closed tasks
+    largeCalendar = new LargeCalendar(this);
+    largeCalendar->show();
 }
 
-// Placeholder function for updating task UI (currently empty)
+// Function to handle updates to task UI (not used here)
 void UpdateTaskUI()
 {
-    QVector<Task> openTasks;  // Vector to hold open tasks
-    QVector<Task> closedTasks;  // Vector to hold closed tasks
-
-    for (int i = 0; i < openTasks.size(); ++i) {
-        // Logic to update open tasks in the UI would go here
-    }
-    for (int i = 0; i < closedTasks.size(); ++i) {
-        // Logic to update closed tasks in the UI would go here
-    }
+    QVector<Task> openTasks;
+    for (int i = 0; i < openTasks.size(); ++i) {}
+    QVector<Task> closedTasks;
+    for (int i = 0; i < closedTasks.size(); ++i) {}
 }
 
-// Destructor for MainTaskScreen (handles cleanup)
+// Destructor for MainTaskScreen, called when the screen is closed
 MainTaskScreen::~MainTaskScreen()
 {
-    delete ui;  // Frees up memory used by the UI components
+    delete ui;
 }
+
