@@ -32,7 +32,7 @@ void CurrentUser::closeTask(QString newTask)
         int newTableIndex = 0;
         for (int i = 0; i < openTasks.size(); ++i) { // loop through all open tasks
             if (i != taskToMove) {
-                tempTable[newTableIndex] = openTasks[i]; // Fill new table with all but deleted value
+                tempTable.append(tempTask); // Fill new table with all but deleted value
             }
         }
         openTasks = tempTable; // Set open tasks table to table without deleted task
