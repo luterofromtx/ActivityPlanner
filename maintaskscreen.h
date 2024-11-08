@@ -2,10 +2,10 @@
 #define MAINTASKSCREEN_H
 
 #include <QDialog>
+#include "currentuser.h"
 #include "largecalendar.h"
 #include "notifications.h"
 #include "tasksettings.h"
-#include "currentuser.h"
 
 // Forward declaration of MainWindow to avoid circular dependency
 class MainWindow;

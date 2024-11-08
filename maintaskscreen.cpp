@@ -7,7 +7,8 @@
 
 CurrentUser currentUser;
 
-void UpdateUserMain(QString username, QVector<Task> openTasks, QVector<Task> closedTasks) {
+void UpdateUserMain(QString username, QVector<Task> openTasks, QVector<Task> closedTasks)
+{
     currentUser.UpdateUser(username, openTasks, closedTasks);
 }
 
@@ -42,7 +43,9 @@ void MainTaskScreen::on_AddTaskSettingsBtn_clicked()
     taskSettings->exec(); // This will handle showing the dialog and checking the result
 }
 
-void MainTaskScreen::addTaskToChecklist(const QString &taskName, const QString &taskDeadline, const QString &taskDescription)
+void MainTaskScreen::addTaskToChecklist(const QString &taskName,
+                                        const QString &taskDeadline,
+                                        const QString &taskDescription)
 {
     int rowCount = ui->tableWidget->rowCount();
     ui->tableWidget->insertRow(rowCount);
@@ -81,20 +84,14 @@ void MainTaskScreen::on_OpenCalenderBtn_clicked()
     largeCalendar->show();
 }
 
-
-void UpdateTaskUI() {
-
+void UpdateTaskUI()
+{
     QVector<Task> openTasks;
-    for (int i=0;i<openTasks.size();++i) {
-
-
+    for (int i = 0; i < openTasks.size(); ++i) {
     }
     QVector<Task> closedTasks;
-    for(int i=0;i<closedTasks.size();++i) {
-
-
+    for (int i = 0; i < closedTasks.size(); ++i) {
     }
-
 }
 
 void MainTaskScreen::on_QuickAddBtn_clicked()
@@ -110,9 +107,7 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
     // -----------------------
 
     Task newTask(taskName, taskDesc, taskDeadline); // New open task
-    currentUser.addTask(newTask); // Add task to current user open task vector
-
-
+    currentUser.addTask(newTask);                   // Add task to current user open task vector
 }
 
 void MainTaskScreen::on_DoneBtnT_clicked()
@@ -125,8 +120,6 @@ void MainTaskScreen::on_DoneBtnT_clicked()
     QString taskName;
     QVector<Task> *openTable = currentUser.getTasks(0);
     QVector<Task> *closedTable = currentUser.getTasks(1);
-
-
 }
 MainTaskScreen::~MainTaskScreen()
 {
