@@ -1,10 +1,10 @@
 #include "forgotpassword.h"
-#include "mainwindow.h"
-#include "ui_forgotpassword.h"
 #include <QDir>
 #include <QFile>
-#include <QTextStream>
 #include <QMessageBox>
+#include <QTextStream>
+#include "mainwindow.h"
+#include "ui_forgotpassword.h"
 ForgotPassword::ForgotPassword(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ForgotPassword)
@@ -28,9 +28,9 @@ void ForgotPassword::on_CancelBtn_clicked()
 
 void ForgotPassword::on_ConfirmBtn_clicked()
 {
-    QString username =  ui->lineEditUsername->text();
-    QString newPassword =  ui->lineEditPassword->text();
-    QString confirmNewPassword =  ui->lineEditConfirmPass->text();
+    QString username = ui->lineEditUsername->text();
+    QString newPassword = ui->lineEditPassword->text();
+    QString confirmNewPassword = ui->lineEditConfirmPass->text();
     QString userFile = "./Users/" + username + "/" + username + "Cred.txt";
 
     //Run proper checks first
@@ -38,19 +38,19 @@ void ForgotPassword::on_ConfirmBtn_clicked()
     if (!root.exists("Users")) {
         QMessageBox::critical(this, "Error", "Please create an account first.");
         return;
-    } else if(newPassword!=confirmNewPassword) {
+    } else if (newPassword != confirmNewPassword) {
         QMessageBox::critical(this, "Error", "Passwords do not match.");
         return;
     }
     QDir user;
-    if(!user.exists(username)) {
+    if (!user.exists("Users/" + username)) {
         QMessageBox::critical(this, "Error", "Username specified does not exist.");
         return;
     }
 
     //Write to the file
     QFile file(userFile);
-    if(!file.open(QIODevice::ReadWrite)) {
+    if (!file.open(QIODevice::ReadWrite)) {
         qCritical() << username << ": Could not open file!";
         qCritical() << file.errorString();
     } else {
@@ -67,4 +67,3 @@ void ForgotPassword::on_ConfirmBtn_clicked()
     this->hide();
     mainWindow->show();
 }
-

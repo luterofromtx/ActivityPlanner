@@ -64,8 +64,3 @@ void TaskSettings::on_DescriptionLine_textEdited(const QString &arg1)
     // Logic for handling text editing in DateGiven field, if needed
     qDebug() << "Date given edited:" << arg1;
 }
-
-
-
-
-

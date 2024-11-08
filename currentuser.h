@@ -8,7 +8,6 @@
 class CurrentUser : Task
 {
 public:
-
     CurrentUser();
     void UpdateUser(QString username1, QVector<Task> openTasks1, QVector<Task> closedTasks1);
     void addTask(Task newTask); // Add new task to openTasks

@@ -49,7 +49,7 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     }
 
     QDir userDir("Users");
-    if(!userDir.exists(newUsername)) {
+    if (!userDir.exists(newUsername)) {
         userDir.mkdir(newUsername);
         QDir dir(newUsername);
         qInfo() << "Created" << dir.absolutePath();
@@ -78,7 +78,7 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     }
 
     QFile openTasksFile(newUserOpenTasks);
-    if(!openTasksFile.open(QIODevice::ReadWrite)) {
+    if (!openTasksFile.open(QIODevice::ReadWrite)) {
         qCritical() << newUserOpenTasks << ": Could not open file!";
         qCritical() << openTasksFile.errorString();
     } else {
@@ -86,7 +86,7 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     }
 
     QFile closedTasksFile(newUserClosedTasks);
-    if(!closedTasksFile.open(QIODevice::ReadWrite)) {
+    if (!closedTasksFile.open(QIODevice::ReadWrite)) {
         qCritical() << newUserClosedTasks << ": Could not open file!";
         qCritical() << closedTasksFile.errorString();
     } else {
