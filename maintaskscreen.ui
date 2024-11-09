@@ -359,7 +359,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Complete</string>
+    <string>Done</string>
    </property>
   </widget>
   <widget class="QPushButton" name="ClearCompleted">
