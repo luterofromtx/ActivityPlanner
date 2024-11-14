@@ -3,7 +3,9 @@
 #include "mainwindow.h"
 #include "task.h"
 #include "tasksettings.h"
+#include "largecalendar.h"  // Include LargeCalendar
 #include "ui_maintaskscreen.h"
+#include <QMessageBox>
 
 CurrentUser currentUser;
 
@@ -37,8 +39,8 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainTaskScreen)
     , mainWindow(mainWindow)
-    , selectedRowForCompletion(-1) // Initialize selected row as -1 (none selected)
-    , selectedRowForClear(-1)      // Initialize selected row for clear as -1
+    , selectedRowForCompletion(-1)
+    , selectedRowForClear(-1)
 {
     ui->setupUi(this);
 
@@ -195,28 +197,41 @@ void MainTaskScreen::on_Completed_clicked()
     selectedRowForCompletion = -1;
 }
 
-void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
+void MainTaskScreen::showTasksForDate(const QDate &date)
 {
-    // Calendar interaction logic (keep this if you need it for other purposes)
+    QString selectedDate = date.toString("yyyy-MM-dd");  // Format date as "YYYY-MM-DD"
+
+    // Fetch open tasks from currentUser
+    QVector<Task> tasks = currentUser.getTasks(0);  // 0 for open tasks
+
+    QString taskDetails;
+    for (const Task &task : tasks) {
+        if (task.getDeadline() == selectedDate) {  // Match task deadline with selected date
+            taskDetails += QString("Task: %1\nDescription: %2\n\n")
+                               .arg(task.getTaskname())
+                               .arg(task.getDescription());
+        }
+    }
+    if (taskDetails.isEmpty()) {
+        taskDetails = "No tasks for this date.";
+    }
+
 }
 
 void MainTaskScreen::on_OpenCalenderBtn_clicked()
 {
-    largeCalendar = new LargeCalendar(this);
-    largeCalendar->show();
-}
+    QVector<Task> tasks = currentUser.getTasks(0);  // Retrieve open tasks
+    largeCalendar = new LargeCalendar(tasks, this);  // Pass tasks and parent widget
 
-void UpdateTaskUI()
-{
-    QVector<Task> openTasks;
-    for (int i = 0; i < openTasks.size(); ++i) {
-    }
-    QVector<Task> closedTasks;
-    for (int i = 0; i < closedTasks.size(); ++i) {
-    }
+    // Connect the dateSelected signal to showTasksForDate slot
+    connect(largeCalendar, &LargeCalendar::dateSelected, this, &MainTaskScreen::showTasksForDate);
+
+    largeCalendar->show();
 }
 
 MainTaskScreen::~MainTaskScreen()
 {
     delete ui;
+    delete largeCalendar;  // Ensure cleanup
 }
+
