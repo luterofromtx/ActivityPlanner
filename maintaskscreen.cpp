@@ -203,16 +203,17 @@ void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
     if (processing)
         return; // Exit if already processing
 
-    processing = true;       // Set guard
-    emit dateSelected(date); // Emit the dateSelected signal with the activated date
+    processing = true; // Set guard
 
     QString selectedDate = date.toString("yyyy-MM-dd");
     qDebug() << "Selected date:" << selectedDate; // Debugging: Print selected date
 
+    // Retrieve tasks from currentUser
+    QVector<Task> taskList = currentUser.getTasks(0); // Ensure tasks are available here
+
     QString taskDetails;
     for (const Task &task : taskList) {
-        qDebug() << "Checking Task with Deadline:"
-                 << task.getDeadline(); // Debug each task deadline
+        qDebug() << "Checking Task with Deadline:" << task.getDeadline(); // Debug each task deadline
 
         if (task.getDeadline() == selectedDate) { // Match task deadline with selected date
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
@@ -226,8 +227,10 @@ void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
     }
 
     QMessageBox::information(this, "Tasks for " + selectedDate, taskDetails);
+
     processing = false; // Reset guard
 }
+
 
 void MainTaskScreen::showTasksForDate(const QDate &date)
 {
@@ -265,5 +268,3 @@ MainTaskScreen::~MainTaskScreen()
     delete ui;
     delete largeCalendar; // Ensure cleanup
 }
-
-
