@@ -1,11 +1,11 @@
 #include "maintaskscreen.h"
 #include <QDebug>
+#include <QMessageBox>
+#include "largecalendar.h" // Include LargeCalendar
 #include "mainwindow.h"
 #include "task.h"
 #include "tasksettings.h"
-#include "largecalendar.h"  // Include LargeCalendar
 #include "ui_maintaskscreen.h"
-#include <QMessageBox>
 
 CurrentUser currentUser;
 
@@ -197,16 +197,48 @@ void MainTaskScreen::on_Completed_clicked()
     selectedRowForCompletion = -1;
 }
 
+void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
+{
+    static bool processing = false;
+    if (processing)
+        return; // Exit if already processing
+
+    processing = true;       // Set guard
+    emit dateSelected(date); // Emit the dateSelected signal with the activated date
+
+    QString selectedDate = date.toString("yyyy-MM-dd");
+    qDebug() << "Selected date:" << selectedDate; // Debugging: Print selected date
+
+    QString taskDetails;
+    for (const Task &task : taskList) {
+        qDebug() << "Checking Task with Deadline:"
+                 << task.getDeadline(); // Debug each task deadline
+
+        if (task.getDeadline() == selectedDate) { // Match task deadline with selected date
+            taskDetails += QString("Task: %1\nDescription: %2\n\n")
+                               .arg(task.getTaskname())
+                               .arg(task.getDescription());
+        }
+    }
+
+    if (taskDetails.isEmpty()) {
+        taskDetails = "No tasks for this date.";
+    }
+
+    QMessageBox::information(this, "Tasks for " + selectedDate, taskDetails);
+    processing = false; // Reset guard
+}
+
 void MainTaskScreen::showTasksForDate(const QDate &date)
 {
-    QString selectedDate = date.toString("yyyy-MM-dd");  // Format date as "YYYY-MM-DD"
+    QString selectedDate = date.toString("yyyy-MM-dd"); // Format date as "YYYY-MM-DD"
 
     // Fetch open tasks from currentUser
-    QVector<Task> tasks = currentUser.getTasks(0);  // 0 for open tasks
+    QVector<Task> tasks = currentUser.getTasks(0); // 0 for open tasks
 
     QString taskDetails;
     for (const Task &task : tasks) {
-        if (task.getDeadline() == selectedDate) {  // Match task deadline with selected date
+        if (task.getDeadline() == selectedDate) { // Match task deadline with selected date
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
                                .arg(task.getTaskname())
                                .arg(task.getDescription());
@@ -215,13 +247,12 @@ void MainTaskScreen::showTasksForDate(const QDate &date)
     if (taskDetails.isEmpty()) {
         taskDetails = "No tasks for this date.";
     }
-
 }
 
 void MainTaskScreen::on_OpenCalenderBtn_clicked()
 {
     QVector<Task> tasks = currentUser.getTasks(0);  // Retrieve open tasks
-    largeCalendar = new LargeCalendar(tasks, this);  // Pass tasks and parent widget
+    largeCalendar = new LargeCalendar(tasks, this); // Pass tasks and parent widget
 
     // Connect the dateSelected signal to showTasksForDate slot
     connect(largeCalendar, &LargeCalendar::dateSelected, this, &MainTaskScreen::showTasksForDate);
@@ -232,6 +263,7 @@ void MainTaskScreen::on_OpenCalenderBtn_clicked()
 MainTaskScreen::~MainTaskScreen()
 {
     delete ui;
-    delete largeCalendar;  // Ensure cleanup
+    delete largeCalendar; // Ensure cleanup
 }
+
 
