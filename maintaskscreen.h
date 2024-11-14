@@ -7,8 +7,10 @@
 #include "notifications.h"
 #include "tasksettings.h"
 
+
 // Forward declaration of MainWindow to avoid circular dependency
 class MainWindow;
+class LargeCalendar;
 
 namespace Ui {
 class MainTaskScreen;
@@ -28,13 +30,16 @@ private slots:
     void on_LogoutBtn_clicked();
     void on_AddTaskSettingsBtn_clicked();
     void on_SettingsBtn_clicked();
-    void on_calendarWidget_activated(const QDate &date);
     void on_OpenCalenderBtn_clicked();
     void on_QuickAddBtn_clicked();
     void addTaskToChecklist(const QString &taskName,
                             const QString &taskDeadline,
                             const QString &taskDescription);
     void UpdateMainUI();
+    void showTasksForDate(const QDate &date);
+
+
+
 private:
     Ui::MainTaskScreen *ui;
     MainWindow *mainWindow;       // Pointer to MainWindow for navigation
@@ -46,3 +51,4 @@ private:
 };
 
 #endif // MAINTASKSCREEN_H
+
