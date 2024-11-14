@@ -7,7 +7,6 @@
 #include "notifications.h"
 #include "tasksettings.h"
 
-
 // Forward declaration of MainWindow to avoid circular dependency
 class MainWindow;
 class LargeCalendar;
@@ -31,6 +30,8 @@ private slots:
     void on_AddTaskSettingsBtn_clicked();
     void on_SettingsBtn_clicked();
     void on_OpenCalenderBtn_clicked();
+    void on_calendarWidget_activated(const QDate &date);
+
     void on_QuickAddBtn_clicked();
     void addTaskToChecklist(const QString &taskName,
                             const QString &taskDeadline,
@@ -38,7 +39,8 @@ private slots:
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
 
-
+signals:
+    void dateSelected(const QDate &date); // Signal to emit when a date is selected
 
 private:
     Ui::MainTaskScreen *ui;
@@ -48,7 +50,10 @@ private:
     LargeCalendar *largeCalendar; // Pointer to LargeCalendar UI
     int selectedRowForCompletion; // Track selected row in tableWidget for completion
     int selectedRowForClear;      // Track selected row in tableWidget_2 for clearing
+    QVector<Task> taskList; // List of tasks
+
 };
 
 #endif // MAINTASKSCREEN_H
+
 
