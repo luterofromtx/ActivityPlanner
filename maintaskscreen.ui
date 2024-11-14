@@ -35,6 +35,9 @@
      <height>190</height>
     </rect>
    </property>
+   <property name="gridVisible">
+    <bool>true</bool>
+   </property>
    <property name="verticalHeaderFormat">
     <enum>QCalendarWidget::VerticalHeaderFormat::NoVerticalHeader</enum>
    </property>
@@ -382,4 +385,5 @@
  <resources/>
  <connections/>
 </ui>
+
 
