@@ -35,6 +35,9 @@
      <height>190</height>
     </rect>
    </property>
+   <property name="verticalHeaderFormat">
+    <enum>QCalendarWidget::VerticalHeaderFormat::NoVerticalHeader</enum>
+   </property>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
@@ -313,7 +316,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Deadline: MM/DD/YYYY</string>
+        <string>Deadline: YYYY-MM-DD</string>
        </property>
       </widget>
      </item>
@@ -379,3 +382,4 @@
  <resources/>
  <connections/>
 </ui>
+
