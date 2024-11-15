@@ -12,6 +12,8 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+inline QString successfulLoginUsername;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

@@ -18,6 +18,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 // Login button
 void MainWindow::on_LoginBtn_clicked()
 {
@@ -55,6 +56,7 @@ void MainWindow::on_LoginBtn_clicked()
                     QMessageBox::about(this, "Activity Planner", "Login successful!");
                     //Hide login screen and show main task screen
                     userFile.close();
+                    successfulLoginUsername = username; //defined in MainWindow.h
                     this->hide();
                     MainTaskScreen *taskScreen = new MainTaskScreen(this);
                     taskScreen->show();

@@ -38,6 +38,8 @@ private slots:
                             const QString &taskDescription);
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
+    void printCurrentUserTasks();
+    void setCurrentUsername();
 
 signals:
     void dateSelected(const QDate &date); // Signal to emit when a date is selected
@@ -50,10 +52,7 @@ private:
     LargeCalendar *largeCalendar; // Pointer to LargeCalendar UI
     int selectedRowForCompletion; // Track selected row in tableWidget for completion
     int selectedRowForClear;      // Track selected row in tableWidget_2 for clearing
-    QVector<Task> taskList; // List of tasks
-
+    QVector<Task> taskList;       // List of tasks
 };
 
 #endif // MAINTASKSCREEN_H
-
-
