@@ -62,6 +62,7 @@ void MainWindow::on_LoginBtn_clicked()
                     taskScreen->show();
 
                     taskScreen->setupUser(usernameCompare);
+                    taskScreen->printCurrentUserTasks();
 
                 } else {
                     QMessageBox::critical(this, "Error", "Invalid login. Please try again.");

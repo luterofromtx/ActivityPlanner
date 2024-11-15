@@ -95,6 +95,7 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
 
 void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> openTasks to then be printed
 {
+    qDebug() << "Access this right now";
     QString openTasksFile = "./Users/" + currentUser.getUsername() +
                             "/" + currentUser.getUsername() + "OpenTasks.txt";
     QFile file(openTasksFile);
@@ -116,6 +117,18 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
         }
     }
     file.close();
+    QVector<Task> gay;
+    QVector<Task> open = currentUser.getTasks(0);
+    QVector<Task> closed = currentUser.getTasks(1);
+    for(int i=0;i<open.size();++i){
+        gay.append(open[i]);
+    }
+    for(int i=0;i<closed.size();++i){
+        gay.append(closed[i]);
+    }
+    for(int i=0;i<gay.size();i++) {
+        qDebug() << gay[i].getTaskname() << "  " << gay[i].getDescription() << "  " << gay[i].getDeadline();
+    }
 }
 
 // Slot to handle logout button click

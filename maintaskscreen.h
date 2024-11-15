@@ -25,6 +25,7 @@ public:
 
     void setupUser(QString username); /*This allows you to carry the variable used at log in
                                         over to maintaskscreen.cpp and then assign it to currentUser*/
+    void printCurrentUserTasks();
 
 private slots:
     void on_ClearCompleted_clicked();
@@ -34,14 +35,12 @@ private slots:
     void on_SettingsBtn_clicked();
     void on_OpenCalenderBtn_clicked();
     void on_calendarWidget_activated(const QDate &date);
-
     void on_QuickAddBtn_clicked();
     void addTaskToChecklist(const QString &taskName,
                             const QString &taskDeadline,
                             const QString &taskDescription);
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
-    void printCurrentUserTasks();
     void setCurrentUsername();
 
 signals:
