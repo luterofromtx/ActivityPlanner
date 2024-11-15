@@ -11,11 +11,9 @@
 
 CurrentUser currentUser; // Global instance of CurrentUser to manage user tasks
 
-QString loggedInUser = successfulLoginUsername;
-void MainTaskScreen::setCurrentUsername()
-{
-    currentUser.setUsername(loggedInUser);
-    qDebug() << "Username set to: " << currentUser.getUsername();
+//When user logs in, use username typed in to set to current user
+void MainTaskScreen::setupUser(QString username) {
+    currentUser.setUsername(username);
 }
 
 // Update user information and tasks
@@ -121,20 +119,22 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
 }
 
 // Slot to handle logout button click
-void MainTaskScreen::on_LogoutBtn_clicked()
+void MainTaskScreen::on_LogoutBtn_clicked() //Write to the current user's OpenTasks file when logging out
 {
     qDebug() << "Logout button clicked.";
     QString openTasksFile = "./Users/" + currentUser.getUsername() +
-                            "/" + currentUser.getUsername() + "OpenTasks.txt";
+                            "/" + currentUser.getUsername() + "OpenTasks.txt"; //This is the path to the file being written
     QFile file(openTasksFile);
-    if(!file.open(QIODevice::Append)) {
+    if(!file.open(QIODevice::Append)) { //Append, because we are only adding to the file
         qDebug() << "Open Tasks file could not be opened.";
     }
     else {
         qDebug() << openTasksFile << " opened successfully.";
-        QVector<Task> currentOpenTasks = currentUser.getTasks(0);
+        QVector<Task> currentOpenTasks = currentUser.getTasks(0); //Accesses private member openTasks publicly through new vector currentOpenTasks
         QTextStream stream(&file);
         for(int i=0;i<currentOpenTasks.size();i++) {
+            //from i=0 til there are no more tasks, write these at i's current value
+            //each task is written separated by a comma, then at the end a new line
             stream << currentOpenTasks[i].getTaskname() << ",";
             qDebug() << "Writing taskname for currentOpenTasks[" << i << "]";
             stream << currentOpenTasks[i].getDescription() << ",";
@@ -143,8 +143,8 @@ void MainTaskScreen::on_LogoutBtn_clicked()
             qDebug() << "Writing deadline for currentOpenTasks[" << i << "]";
             }
     }
-    file.flush();
-    file.close();
+    file.flush(); //Save contents to the file
+    file.close(); //Close it to free up resources and keep file from being written accidentally later on
 
     hide();             // Hide MainTaskScreen
     mainWindow->show(); // Show MainWindow for logout navigation

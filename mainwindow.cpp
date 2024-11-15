@@ -47,7 +47,7 @@ void MainWindow::on_LoginBtn_clicked()
             } else {
                 QTextStream stream(&userFile); //Parsing file
                 while (!stream.atEnd()) {
-                    usernameCompare = stream.readLine();
+                    usernameCompare = stream.readLine(); //if username typed matches first line of user file
                     passwordCompare = stream.readLine();
                 }
                 if (usernameCompare == username
@@ -60,6 +60,8 @@ void MainWindow::on_LoginBtn_clicked()
                     this->hide();
                     MainTaskScreen *taskScreen = new MainTaskScreen(this);
                     taskScreen->show();
+
+                    taskScreen->setupUser(usernameCompare);
 
                 } else {
                     QMessageBox::critical(this, "Error", "Invalid login. Please try again.");

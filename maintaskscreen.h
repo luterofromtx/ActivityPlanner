@@ -23,6 +23,9 @@ public:
     explicit MainTaskScreen(MainWindow *mainWindow, QWidget *parent = nullptr);
     ~MainTaskScreen();
 
+    void setupUser(QString username); /*This allows you to carry the variable used at log in
+                                        over to maintaskscreen.cpp and then assign it to currentUser*/
+
 private slots:
     void on_ClearCompleted_clicked();
     void on_Completed_clicked();
