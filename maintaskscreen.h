@@ -41,7 +41,6 @@ private slots:
                             const QString &taskDescription);
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
-    void setCurrentUsername();
 
 signals:
     void dateSelected(const QDate &date); // Signal to emit when a date is selected

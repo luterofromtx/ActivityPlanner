@@ -107,28 +107,40 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
         QTextStream Stream(&file);
         while(!Stream.atEnd()) {
             QString LineData = Stream.readLine();
-            QStringList Data = LineData.split(",");
-            for(int i=0;i<Data.length();i+=3) {
+            for(int i=0;i<3;i++) {
+                QStringList Data = LineData.split(",");
                 newTask.setName(Data.at(i));
-                newTask.setDescription(Data.at(i+1));
-                newTask.setDeadline(Data.at(i+2));
+                newTask.setDescription(Data.at(i));
+                newTask.setDeadline(Data.at(i));
                 currentUser.addTask(newTask);
             }
         }
     }
     file.close();
+
+    // Filled task vectors for currentUser
     QVector<Task> gay;
     QVector<Task> open = currentUser.getTasks(0);
     QVector<Task> closed = currentUser.getTasks(1);
+
+    // Fill openTasks
     for(int i=0;i<open.size();++i){
         gay.append(open[i]);
     }
+
+    // Fill closedTasks
     for(int i=0;i<closed.size();++i){
         gay.append(closed[i]);
     }
+
+    // Print open tasks
     for(int i=0;i<gay.size();i++) {
         qDebug() << gay[i].getTaskname() << "  " << gay[i].getDescription() << "  " << gay[i].getDeadline();
     }
+
+    // Update mainTaskScreenUI
+    UpdateMainUI();
+
 }
 
 // Slot to handle logout button click
@@ -224,6 +236,7 @@ void MainTaskScreen::on_SettingsBtn_clicked()
 {
     notifications = new Notifications(this);
     notifications->show();
+
 }
 
 // Handle clearing a selected completed task
