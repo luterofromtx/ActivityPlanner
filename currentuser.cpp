@@ -9,7 +9,12 @@ CurrentUser::CurrentUser() {}
 void CurrentUser::addTask(Task newTask)
 {
     openTasks.append(newTask);
-    printTable(openTasks);
+    //printTable(openTasks);
+}
+
+// Add new task to completed task table
+void CurrentUser::newCloseTask(Task newTask) {
+    closedTasks.append(newTask);
 }
 
 // Print all task names from vector

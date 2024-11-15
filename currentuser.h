@@ -11,7 +11,10 @@ public:
     CurrentUser();
     void UpdateUser(QString username1, QVector<Task> openTasks1, QVector<Task> closedTasks1);
     void addTask(Task newTask); // Add new task to openTasks
+    void newCloseTask(Task newTask);
+
     void closeTask(QString newTask);
+
     int findTask(QVector<Task> taskTable, QString taskToFind);
     void printTable(QVector<Task> taskTable);
     void setUsername(QString currentUsername); //set current username on log in

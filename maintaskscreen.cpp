@@ -118,6 +118,28 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
     }
     file.close();
 
+    QString closedTasksFile = "./Users/" + currentUser.getUsername() +
+                            "/" + currentUser.getUsername() + "ClosedTasks.txt";
+    file.setFileName(closedTasksFile);
+    if(!file.open(QIODevice::ReadWrite)) {
+        qDebug() << "Open Tasks file could not be opened.";
+    }
+    else {
+        Task newTask;
+        QTextStream Stream(&file);
+        while(!Stream.atEnd()) {
+            QString LineData = Stream.readLine();
+            for(int i=0;i<3;i++) {
+                QStringList Data = LineData.split(",");
+                newTask.setName(Data.at(i));
+                newTask.setDescription(Data.at(i));
+                newTask.setDeadline(Data.at(i));
+                currentUser.newCloseTask(newTask);
+            }
+        }
+    }
+    file.close();
+
     // Filled task vectors for currentUser
     QVector<Task> gay;
     QVector<Task> open = currentUser.getTasks(0);
