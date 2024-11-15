@@ -1,6 +1,6 @@
 #include "currentuser.h"
-#include <QFile>
 #include <QDir>
+#include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
 CurrentUser::CurrentUser() {}
@@ -18,14 +18,6 @@ void CurrentUser::printTable(QVector<Task> taskTable)
     // Debug to print opentasks list
     for (int i = 0; i < taskTable.size(); ++i) {
         qDebug() << taskTable[i].getTaskname();
-    }
-    QString currentUser = username;
-    //Read and print from user Open Tasks file
-    QFile file(currentUser + "/" + currentUser + "OpenTasks.csv");
-    if(!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Could not read from the user Open Tasks file.";
-    } else {
-        //Read from the file and print to the table
     }
 }
 
@@ -79,14 +71,21 @@ void CurrentUser::UpdateUser(QString username1, QVector<Task> openTasks1, QVecto
     closedTasks = closedTasks1;
 }
 
+QString CurrentUser::getUsername() {
+    return username;
+}
+
+void CurrentUser::setUsername(QString currentUsername) {
+    username = currentUsername;
+}
+
 QVector<Task> CurrentUser::getTasks(int taskType)
 {
     if (taskType == 0) {
         return openTasks; // Assuming openTasks is a QVector<Task> member of CurrentUser
     } else if (taskType == 1) {
         return closedTasks; // Assuming closedTasks is also a QVector<Task> member
-    }
-    else {
+    } else {
         return openTasks; // Return nullptr if taskType doesn't match expected values
     }
 }

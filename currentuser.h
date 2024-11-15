@@ -14,6 +14,8 @@ public:
     void closeTask(QString newTask);
     int findTask(QVector<Task> taskTable, QString taskToFind);
     void printTable(QVector<Task> taskTable);
+    void setUsername(QString currentUsername);
+    QString getUsername();
 
     QVector<Task> getTasks(
         int vector);      // Access opentasks with 0 and closed tasks with 1 as vector value

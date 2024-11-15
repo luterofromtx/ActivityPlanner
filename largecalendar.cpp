@@ -1,8 +1,8 @@
 #include "largecalendar.h"
-#include "ui_largecalendar.h"
 #include <QMessageBox>
-#include "task.h"
 #include "currentuser.h"
+#include "task.h"
+#include "ui_largecalendar.h"
 
 LargeCalendar::LargeCalendar(QVector<Task> tasks, QWidget *parent)
     : QDialog(parent)
@@ -10,8 +10,11 @@ LargeCalendar::LargeCalendar(QVector<Task> tasks, QWidget *parent)
     , taskList(tasks)
 {
     ui->setupUi(this);
-    connect(ui->calendarWidget, &QCalendarWidget::clicked, this, &LargeCalendar::on_calendarWidget_activated, Qt::UniqueConnection);
-
+    connect(ui->calendarWidget,
+            &QCalendarWidget::clicked,
+            this,
+            &LargeCalendar::on_calendarWidget_activated,
+            Qt::UniqueConnection);
 }
 
 LargeCalendar::~LargeCalendar()
@@ -26,21 +29,22 @@ void LargeCalendar::on_CloseBtn_clicked()
 
 void LargeCalendar::on_calendarWidget_activated(const QDate &date)
 {
-
     static bool processing = false;
-    if (processing) return;  // Exit if already processing
+    if (processing)
+        return; // Exit if already processing
 
-    processing = true;  // Set guard
-    emit dateSelected(date);  // Emit the dateSelected signal with the activated date
+    processing = true;       // Set guard
+    emit dateSelected(date); // Emit the dateSelected signal with the activated date
 
     QString selectedDate = date.toString("yyyy-MM-dd");
-    qDebug() << "Selected date:" << selectedDate;  // Debugging: Print selected date
+    qDebug() << "Selected date:" << selectedDate; // Debugging: Print selected date
 
     QString taskDetails;
     for (const Task &task : taskList) {
-        qDebug() << "Checking Task with Deadline:" << task.getDeadline();  // Debug each task deadline
+        qDebug() << "Checking Task with Deadline:"
+                 << task.getDeadline(); // Debug each task deadline
 
-        if (task.getDeadline() == selectedDate) {  // Match task deadline with selected date
+        if (task.getDeadline() == selectedDate) { // Match task deadline with selected date
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
                                .arg(task.getTaskname())
                                .arg(task.getDescription());
@@ -52,8 +56,5 @@ void LargeCalendar::on_calendarWidget_activated(const QDate &date)
     }
 
     QMessageBox::information(this, "Tasks for " + selectedDate, taskDetails);
-    processing = false;  // Reset guard
-
+    processing = false; // Reset guard
 }
-
-

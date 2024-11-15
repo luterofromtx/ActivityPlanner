@@ -58,6 +58,7 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     }
 
     //Name new user files and add to path
+    QString currentUserFile = "./Users/CurrentUser.txt";
     QString newUserFile = "./Users/" + newUsername + "/" + newUsername + "Cred.txt";
     QString newUserOpenTasks = "./Users/" + newUsername + "/" + newUsername + "OpenTasks.txt";
     QString newUserClosedTasks = "./Users/" + newUsername + "/" + newUsername + "ClosedTasks.txt";
