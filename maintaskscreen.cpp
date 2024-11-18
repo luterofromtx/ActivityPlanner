@@ -1,18 +1,22 @@
 #include "maintaskscreen.h"
-#include "largecalendar.h"     // Include LargeCalendar for managing larger calendar view
-#include "mainwindow.h"        // Include MainWindow for navigation purposes
-#include "task.h"              // Include Task class for managing task details
-#include "tasksettings.h"      // Include TaskSettings for managing task input and editing
-#include "ui_maintaskscreen.h" // Include the UI elements of MainTaskScreen
-#include "currentuser.h"       // Include the CurrentUser class
 #include <QDebug>
 #include <QFile>
-#include <QMessageBox>
+#include <QMessageBox> // For displaying validation warnings
+#include <QRegularExpression> // For modern regex handling
+#include <QLineEdit>   // For handling QLineEdit input
+#include "currentuser.h"
+#include "largecalendar.h"
+#include "mainwindow.h"
+#include "task.h"
+#include "tasksettings.h"
+#include "ui_maintaskscreen.h"
+
 
 CurrentUser currentUser; // Global instance of CurrentUser to manage user tasks
 
 //When user logs in, use username typed in to set to current user
-void MainTaskScreen::setupUser(QString username) {
+void MainTaskScreen::setupUser(QString username)
+{
     currentUser.setUsername(username);
 }
 
@@ -96,18 +100,17 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
 void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> openTasks to then be printed
 {
     qDebug() << "Access this right now";
-    QString openTasksFile = "./Users/" + currentUser.getUsername() +
-                            "/" + currentUser.getUsername() + "OpenTasks.txt";
+    QString openTasksFile = "./Users/" + currentUser.getUsername() + "/" + currentUser.getUsername()
+                            + "OpenTasks.txt";
     QFile file(openTasksFile);
-    if(!file.open(QIODevice::ReadWrite)) {
+    if (!file.open(QIODevice::ReadWrite)) {
         qDebug() << "Open Tasks file could not be opened.";
-    }
-    else {
+    } else {
         Task newTask;
         QTextStream Stream(&file);
-        while(!Stream.atEnd()) {
+        while (!Stream.atEnd()) {
             QString LineData = Stream.readLine();
-            for(int i=0;i<3;i++) {
+            for (int i = 0; i < 3; i++) {
                 QStringList Data = LineData.split(",");
                 newTask.setName(Data.at(i));
                 newTask.setDescription(Data.at(i));
@@ -118,18 +121,17 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
     }
     file.close();
 
-    QString closedTasksFile = "./Users/" + currentUser.getUsername() +
-                            "/" + currentUser.getUsername() + "ClosedTasks.txt";
+    QString closedTasksFile = "./Users/" + currentUser.getUsername() + "/"
+                              + currentUser.getUsername() + "ClosedTasks.txt";
     file.setFileName(closedTasksFile);
-    if(!file.open(QIODevice::ReadWrite)) {
+    if (!file.open(QIODevice::ReadWrite)) {
         qDebug() << "Open Tasks file could not be opened.";
-    }
-    else {
+    } else {
         Task newTask;
         QTextStream Stream(&file);
-        while(!Stream.atEnd()) {
+        while (!Stream.atEnd()) {
             QString LineData = Stream.readLine();
-            for(int i=0;i<3;i++) {
+            for (int i = 0; i < 3; i++) {
                 QStringList Data = LineData.split(",");
                 newTask.setName(Data.at(i));
                 newTask.setDescription(Data.at(i));
@@ -146,40 +148,40 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
     QVector<Task> closed = currentUser.getTasks(1);
 
     // Fill openTasks
-    for(int i=0;i<open.size();++i){
+    for (int i = 0; i < open.size(); ++i) {
         gay.append(open[i]);
     }
 
     // Fill closedTasks
-    for(int i=0;i<closed.size();++i){
+    for (int i = 0; i < closed.size(); ++i) {
         gay.append(closed[i]);
     }
 
     // Print open tasks
-    for(int i=0;i<gay.size();i++) {
-        qDebug() << gay[i].getTaskname() << "  " << gay[i].getDescription() << "  " << gay[i].getDeadline();
+    for (int i = 0; i < gay.size(); i++) {
+        qDebug() << gay[i].getTaskname() << "  " << gay[i].getDescription() << "  "
+                 << gay[i].getDeadline();
     }
 
     // Update mainTaskScreenUI
     UpdateMainUI();
-
 }
 
 // Slot to handle logout button click
 void MainTaskScreen::on_LogoutBtn_clicked() //Write to the current user's OpenTasks file when logging out
 {
     qDebug() << "Logout button clicked.";
-    QString openTasksFile = "./Users/" + currentUser.getUsername() +
-                            "/" + currentUser.getUsername() + "OpenTasks.txt"; //This is the path to the file being written
+    QString openTasksFile = "./Users/" + currentUser.getUsername() + "/" + currentUser.getUsername()
+                            + "OpenTasks.txt"; //This is the path to the file being written
     QFile file(openTasksFile);
-    if(!file.open(QIODevice::Append)) { //Append, because we are only adding to the file
+    if (!file.open(QIODevice::Append)) { //Append, because we are only adding to the file
         qDebug() << "Open Tasks file could not be opened.";
-    }
-    else {
+    } else {
         qDebug() << openTasksFile << " opened successfully.";
-        QVector<Task> currentOpenTasks = currentUser.getTasks(0); //Accesses private member openTasks publicly through new vector currentOpenTasks
+        QVector<Task> currentOpenTasks = currentUser.getTasks(
+            0); //Accesses private member openTasks publicly through new vector currentOpenTasks
         QTextStream stream(&file);
-        for(int i=0;i<currentOpenTasks.size();i++) {
+        for (int i = 0; i < currentOpenTasks.size(); i++) {
             //from i=0 til there are no more tasks, write these at i's current value
             //each task is written separated by a comma, then at the end a new line
             stream << currentOpenTasks[i].getTaskname() << ",";
@@ -188,7 +190,7 @@ void MainTaskScreen::on_LogoutBtn_clicked() //Write to the current user's OpenTa
             qDebug() << "Writing description for currentOpenTasks[" << i << "]";
             stream << currentOpenTasks[i].getDeadline() << "," << "\n";
             qDebug() << "Writing deadline for currentOpenTasks[" << i << "]";
-            }
+        }
     }
     file.flush(); //Save contents to the file
     file.close(); //Close it to free up resources and keep file from being written accidentally later on
@@ -241,6 +243,13 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
     QString taskDeadline = ui->lineEditDeadline->text();
     QString taskDescription = ui->lineEditDesc->text();
 
+    QRegularExpression dateRegex("^\\d{4}-\\d{2}-\\d{2}$");
+    QRegularExpressionMatch match = dateRegex.match(taskDeadline);
+    if (!match.hasMatch()) {
+        QMessageBox::warning(this, "Invalid Date Format", "Please enter the date in the format yyyy-MM-dd.");
+        return; // Stop processing if the date format is invalid
+    }
+
     addTaskToChecklist(taskName, taskDeadline, taskDescription); // Add to checklist
 
     // Create new Task and add it to current user's task list
@@ -253,12 +262,15 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
     ui->lineEditDesc->clear();
 }
 
+
+
+
+
 // Open notifications settings dialog
 void MainTaskScreen::on_SettingsBtn_clicked()
 {
     notifications = new Notifications(this);
     notifications->show();
-
 }
 
 // Handle clearing a selected completed task
@@ -393,4 +405,3 @@ MainTaskScreen::~MainTaskScreen()
     delete ui;            // Clean up UI elements
     delete largeCalendar; // Ensure LargeCalendar is deleted
 }
-
