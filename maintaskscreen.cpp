@@ -251,7 +251,7 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
     QRegularExpression dateRegex("^\\d{4}-\\d{2}-\\d{2}$");
     QRegularExpressionMatch match = dateRegex.match(taskDeadline);
     if (!match.hasMatch()) {
-        QMessageBox::warning(this, "Invalid Date Format", "Please enter the date in the format yyyy-MM-dd.");
+        QMessageBox::warning(this, "Invalid Date Format", "Please enter the date in the format [The YEAR (YYYY)- The MONTH (ex. 1-12)(MM) - The DAY(DD)(ex -01,-07)]. Please include the dashes" );
         return; // Stop processing if the date format is invalid
     }
 
