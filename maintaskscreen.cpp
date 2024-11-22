@@ -422,10 +422,10 @@ MainTaskScreen::~MainTaskScreen()
 
 void MainTaskScreen::on_CompleteAllTask_clicked()
 {
-    int totalRows = ui->tableWidget->rowCount();
+    int totalRows = ui->tableWidget->rowCount(); // get number of rows
 
     if (totalRows == 0) {
-        qDebug() << "No tasks to complete.";
+        qDebug() << "No tasks to complete."; //no row to select complete.. Task list is empty
         return;
     }
 
