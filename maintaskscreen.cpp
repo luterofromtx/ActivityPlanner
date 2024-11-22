@@ -359,8 +359,8 @@ void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
     for (const Task &task : tasks) {
         if (task.getDeadline() == selectedDate) {
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
-                               .arg(task.getTaskname())
-                               .arg(task.getDescription());
+            .arg(task.getTaskname())
+                .arg(task.getDescription());
         }
     }
 
@@ -383,8 +383,8 @@ void MainTaskScreen::showTasksForDate(const QDate &date)
     for (const Task &task : tasks) {
         if (task.getDeadline() == selectedDate) {
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
-                               .arg(task.getTaskname())
-                               .arg(task.getDescription());
+            .arg(task.getTaskname())
+                .arg(task.getDescription());
         }
     }
     if (taskDetails.isEmpty()) {
@@ -402,6 +402,13 @@ void MainTaskScreen::on_OpenCalenderBtn_clicked()
     connect(largeCalendar, &LargeCalendar::dateSelected, this, &MainTaskScreen::showTasksForDate);
 
     largeCalendar->show(); // Display the LargeCalendar
+}
+
+void MainTaskScreen::on_ClearAllTask_clicked()
+{
+    ui->tableWidget_2->setRowCount(0);
+    
+    
 }
 
 // Destructor for MainTaskScreen
