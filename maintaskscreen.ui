@@ -404,7 +404,7 @@
   <widget class="QPushButton" name="Completed">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>120</x>
      <y>310</y>
      <width>71</width>
      <height>21</height>
@@ -438,6 +438,19 @@
    </property>
    <property name="text">
     <string>Clear All Task</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="CompleteAllTask">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>310</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Complete All</string>
    </property>
   </widget>
  </widget>
