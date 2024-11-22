@@ -407,8 +407,8 @@ void MainTaskScreen::on_OpenCalenderBtn_clicked()
 void MainTaskScreen::on_ClearAllTask_clicked()
 {
     ui->tableWidget_2->setRowCount(0);
-    
-    
+
+
 }
 
 // Destructor for MainTaskScreen
@@ -416,4 +416,49 @@ MainTaskScreen::~MainTaskScreen()
 {
     delete ui;            // Clean up UI elements
     delete largeCalendar; // Ensure LargeCalendar is deleted
+}
+
+
+
+void MainTaskScreen::on_CompleteAllTask_clicked()
+{
+    int totalRows = ui->tableWidget->rowCount();
+
+    if (totalRows == 0) {
+        qDebug() << "No tasks to complete.";
+        return;
+    }
+
+    // Iterate over the rows from top to bottom to maintain the correct order
+    for (int i = 0; i < totalRows; ++i) {
+        // Always process the first row (0) since rows shift up after removal
+        QTableWidgetItem *taskNameItem = ui->tableWidget->item(0, 0);
+        QTableWidgetItem *taskDeadlineItem = ui->tableWidget->item(0, 1);
+        QTableWidgetItem *taskDescriptionItem = ui->tableWidget->item(0, 2);
+
+        if (!taskNameItem || taskNameItem->text().isEmpty()) {
+            continue; // Skip if no task name or empty row
+        }
+
+        QString taskName = taskNameItem->text();
+        QString taskDeadline = taskDeadlineItem ? taskDeadlineItem->text() : "No deadline";
+        QString taskDescription = taskDescriptionItem ? taskDescriptionItem->text() : "No description";
+
+        // Insert the task at the top of the completed tasks table
+        ui->tableWidget_2->insertRow(0);
+        ui->tableWidget_2->setItem(0, 0, new QTableWidgetItem(taskName));
+        ui->tableWidget_2->setItem(0, 1, new QTableWidgetItem(taskDeadline));
+        ui->tableWidget_2->setItem(0, 2, new QTableWidgetItem(taskDescription));
+
+        qDebug() << "Task completed: Name =" << taskName << ", Deadline =" << taskDeadline
+                 << ", Description =" << taskDescription;
+
+        // Update currentUser to reflect that the task is completed
+        currentUser.closeTask(taskName);
+
+        // Remove the task from the main task table
+        ui->tableWidget->removeRow(0);
+    }
+
+    qDebug() << "All tasks have been moved to the completed tasks table.";
 }
