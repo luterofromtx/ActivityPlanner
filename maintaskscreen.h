@@ -42,6 +42,9 @@ private slots:
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
 
+
+    void on_ClearAllTask_clicked();// Clear All comppleted Task
+
 signals:
     void dateSelected(const QDate &date); // Signal to emit when a date is selected
 
@@ -57,3 +60,4 @@ private:
 };
 
 #endif // MAINTASKSCREEN_H
+
