@@ -43,7 +43,9 @@ private slots:
     void showTasksForDate(const QDate &date);
 
 
-    void on_ClearAllTask_clicked();// Clear All comppleted Task
+    void on_ClearAllTask_clicked();
+
+    void on_CompleteAllTask_clicked();
 
 signals:
     void dateSelected(const QDate &date); // Signal to emit when a date is selected
@@ -60,4 +62,3 @@ private:
 };
 
 #endif // MAINTASKSCREEN_H
-
