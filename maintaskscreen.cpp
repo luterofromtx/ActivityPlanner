@@ -219,18 +219,23 @@ void MainTaskScreen::addTaskToChecklist(const QString &taskName,
 {
     // Insert a new row at the top of the main task table
     ui->tableWidget->insertRow(0);
-    ui->tableWidget->setItem(0,
-                             0,
-                             new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task" : taskName));
-    ui->tableWidget->setItem(0,
-                             1,
-                             new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline"
-                                                                         : taskDeadline));
-    ui->tableWidget->setItem(0,
-                             2,
-                             new QTableWidgetItem(taskDescription.isEmpty() ? "No description"
-                                                                            : taskDescription));
 
+    // Create QTableWidgetItem instances for each column
+    QTableWidgetItem *nameItem = new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task" : taskName);
+    QTableWidgetItem *deadlineItem = new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline" : taskDeadline);
+    QTableWidgetItem *descriptionItem = new QTableWidgetItem(taskDescription.isEmpty() ? "No description" : taskDescription);
+
+    // Set the items to be non-editable
+    nameItem->setFlags(nameItem->flags() & ~Qt::ItemIsEditable);
+    deadlineItem->setFlags(deadlineItem->flags() & ~Qt::ItemIsEditable);
+    descriptionItem->setFlags(descriptionItem->flags() & ~Qt::ItemIsEditable);
+
+    // Add items to the table widget at row 0
+    ui->tableWidget->setItem(0, 0, nameItem);
+    ui->tableWidget->setItem(0, 1, deadlineItem);
+    ui->tableWidget->setItem(0, 2, descriptionItem);
+
+    // Debug output
     qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline
              << ", Description =" << taskDescription;
 }
