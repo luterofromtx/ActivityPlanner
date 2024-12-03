@@ -84,6 +84,14 @@ void CurrentUser::setUsername(QString currentUsername) {
     username = currentUsername;
 }
 
+void CurrentUser::clearOpenTasks(){
+    openTasks.clear();
+}
+
+void CurrentUser::clearClosedTasks(){
+    closedTasks.clear();
+}
+
 QVector<Task> CurrentUser::getTasks(int taskType)
 {
     if (taskType == 0) {

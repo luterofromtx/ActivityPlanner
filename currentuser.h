@@ -18,6 +18,8 @@ public:
     int findTask(QVector<Task> taskTable, QString taskToFind);
     void printTable(QVector<Task> taskTable);
     void setUsername(QString currentUsername); //set current username on log in
+    void clearOpenTasks();
+    void clearClosedTasks();
     QString getUsername(); //retrieve current username
 
     QVector<Task> getTasks(

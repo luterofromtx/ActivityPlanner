@@ -110,13 +110,11 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
         QTextStream Stream(&file);
         while (!Stream.atEnd()) {
             QString LineData = Stream.readLine();
-            for (int i = 0; i < 3; i++) {
-                QStringList Data = LineData.split(",");
-                newTask.setName(Data.at(i));
-                newTask.setDescription(Data.at(i));
-                newTask.setDeadline(Data.at(i));
-                currentUser.addTask(newTask);
-            }
+            QStringList Data = LineData.split(",");
+            newTask.setName(Data[0]);
+            newTask.setDescription(Data[1]);
+            newTask.setDeadline(Data[2]);
+            currentUser.addTask(newTask);
         }
     }
     file.close();
@@ -131,13 +129,11 @@ void MainTaskScreen::printCurrentUserTasks() //Appends values to QVector<Task> o
         QTextStream Stream(&file);
         while (!Stream.atEnd()) {
             QString LineData = Stream.readLine();
-            for (int i = 0; i < 3; i++) {
-                QStringList Data = LineData.split(",");
-                newTask.setName(Data.at(i));
-                newTask.setDescription(Data.at(i));
-                newTask.setDeadline(Data.at(i));
-                currentUser.newCloseTask(newTask);
-            }
+            QStringList Data = LineData.split(",");
+            newTask.setName(Data[0]);
+            newTask.setDescription(Data[1]);
+            newTask.setDeadline(Data[2]);
+            currentUser.newCloseTask(newTask);
         }
     }
     file.close();
@@ -174,10 +170,16 @@ void MainTaskScreen::on_LogoutBtn_clicked() //Write to the current user's OpenTa
     QString openTasksFile = "./Users/" + currentUser.getUsername() + "/" + currentUser.getUsername()
                             + "OpenTasks.txt"; //This is the path to the file being written
     QFile file(openTasksFile);
-    if (!file.open(QIODevice::Append)) { //Append, because we are only adding to the file
+    if (!file.open(QIODevice::ReadWrite)) {
         qDebug() << "Open Tasks file could not be opened.";
     } else {
         qDebug() << openTasksFile << " opened successfully.";
+
+        //Empty the file first so updated list can be added without duplicating tasks
+        file.resize(0);
+        qDebug() << openTasksFile << " emptied successfully.";
+
+        //Now add stuff to it
         QVector<Task> currentOpenTasks = currentUser.getTasks(
             0); //Accesses private member openTasks publicly through new vector currentOpenTasks
         QTextStream stream(&file);
@@ -188,13 +190,19 @@ void MainTaskScreen::on_LogoutBtn_clicked() //Write to the current user's OpenTa
             qDebug() << "Writing taskname for currentOpenTasks[" << i << "]";
             stream << currentOpenTasks[i].getDescription() << ",";
             qDebug() << "Writing description for currentOpenTasks[" << i << "]";
-            stream << currentOpenTasks[i].getDeadline() << "," << "\n";
+            stream << currentOpenTasks[i].getDeadline() << "\n";
             qDebug() << "Writing deadline for currentOpenTasks[" << i << "]";
         }
     }
     file.flush(); //Save contents to the file
     file.close(); //Close it to free up resources and keep file from being written accidentally later on
 
+    /*These two lines below clear the task vectors for currentUser, so that
+     * on logging out the vectors also clear. This solves the problem
+     * of the current table being printed again on top of it being saved as well,
+     * causing the table to exponentially grow after every time you log out */
+    currentUser.clearOpenTasks();
+    currentUser.clearClosedTasks();
     hide();             // Hide MainTaskScreen
     mainWindow->show(); // Show MainWindow for logout navigation
 }
