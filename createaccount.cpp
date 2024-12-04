@@ -33,8 +33,15 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     QString newPassword = ui->lineEditPassword->text();
     QString newPasswordConfirm = ui->lineEditConfirm->text();
 
+    //Run a series of checks to make sure user entered adequate info in all three fields
     if (newPassword != newPasswordConfirm) {
         QMessageBox::critical(this, "Error", "Passwords do not match.");
+        return;
+    } else if (newUsername.size()==0) { //If ui->lineEditUsername->text() is empty
+        QMessageBox::critical(this, "Error", "You must enter a username.");
+        return;
+    } else if (newPassword.size()==0) { //If ui->lineEditPassword->text() is empty
+        QMessageBox::critical(this, "Error", "You must enter a password.");
         return;
     }
 
@@ -64,6 +71,12 @@ void CreateAccount::on_CreateAccountBtn_clicked()
     QString newUserClosedTasks = "./Users/" + newUsername + "/" + newUsername + "ClosedTasks.txt";
 
     QFile file(newUserFile);
+    if(file.exists()) //Has a user with this name already been created?
+    {
+        QMessageBox::critical(this, "Error", "This username is taken Please enter another.");
+        return;
+    }
+
     if (!file.open(QIODevice::ReadWrite)) {
         qCritical() << newUserFile << ": Could not open file!";
         qCritical() << file.errorString();
