@@ -44,7 +44,12 @@ void MainWindow::on_LoginBtn_clicked()
                               "Error",
                               "Sorry, this user file got too weird so it did not open.");
         return;
-    } else {
+    } else if(password.size()==0) { //If no password was entered
+        QMessageBox::critical(this, "Error", "You must enter a password.");
+        return;
+    }
+
+    else {
         QTextStream stream(&userFile); //Parsing file
         while (!stream.atEnd()) {
             usernameCompare = stream.readLine(); //if username typed matches first line of user file
