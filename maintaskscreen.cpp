@@ -34,6 +34,9 @@ void MainTaskScreen::UpdateMainUI()
     QVector<Task> openTasks = currentUser.getTasks(0);
     QVector<Task> closedTasks = currentUser.getTasks(1);
 
+    //Print the username next to UserLabel that says "User: "
+    ui->UserLabel->setText("User: " + currentUser.getUsername());
+
     // Loop through each open task and display it in the main checklist
     for (const Task &task : openTasks) {
         addTaskToChecklist(task.getTaskname(), task.getDeadline(), task.getDescription());
