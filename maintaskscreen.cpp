@@ -57,6 +57,9 @@ void MainTaskScreen::UpdateMainUI()
     }
 }
 
+//Fuck the other group members, i am a programming GOD and all shall get on their knees before me immediately
+
+
 // Constructor for MainTaskScreen
 MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     : QDialog(parent)
