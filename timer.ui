@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ActivityPlanner</string>
+   <string>Form</string>
   </property>
   <widget class="QPushButton" name="oneminute">
    <property name="geometry">
@@ -114,7 +114,7 @@
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="cancel">
+  <widget class="QPushButton" name="cancelbutton">
    <property name="geometry">
     <rect>
      <x>290</x>
