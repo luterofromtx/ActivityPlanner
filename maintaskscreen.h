@@ -38,6 +38,9 @@ private slots:
     void addTaskToChecklist(const QString &taskName,
                             const QString &taskDeadline,
                             const QString &taskDescription);
+    void addTaskToCompleted(const QString &taskName,
+                            const QString &taskDeadline,
+                            const QString &taskDescription);
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
 
