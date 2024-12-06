@@ -10,6 +10,7 @@
 #include "task.h"
 #include "tasksettings.h"
 #include "ui_maintaskscreen.h"
+#include "timer.h"
 
 CurrentUser currentUser; // Global instance of CurrentUser to manage user tasks
 
@@ -66,8 +67,8 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     ui->tableWidget->setHorizontalHeaderLabels(QStringList()
                                                << "Task Name" << "Deadline" << "Description");
 
-
-    ui->tableWidget_2->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
+    ui->tableWidget_2->setHorizontalHeaderLabels(QStringList()
+                                                 << "Task Name" << "Deadline" << "Description");
     ui->tableWidget_2->setColumnCount(3);
     ui->tableWidget_2->setHorizontalHeaderLabels(QStringList()
                                                  << "Task Name" << "Deadline" << "Description");
@@ -287,10 +288,7 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
 }
 
 // Open notifications settings dialog
-void MainTaskScreen::on_SettingsBtn_clicked()
-{
-
-}
+void MainTaskScreen::on_SettingsBtn_clicked() {}
 
 // Handle clearing a selected completed task
 void MainTaskScreen::on_ClearCompleted_clicked()
@@ -484,4 +482,28 @@ void MainTaskScreen::on_OpenCalBtn_clicked()
 
     largeCalendar->show(); // Display the LargeCalendar
 }
+
+void MainTaskScreen::on_Timer_clicked()
+{
+    Timer *timerDialog = new Timer(this); // Create a new Timer dialog
+
+    // Connect the Timer's signal to handle data
+    connect(timerDialog, &Timer::dataAvailable, this, [](const QString &data) {
+        qDebug() << "Timer signal received: " << data;
+        // Handle the timer data (e.g., log or update UI)
+    });
+
+    // Show the dialog as modal
+    timerDialog->exec();
+
+    // Delete the dialog after it closes
+    delete timerDialog;
+}
+
+
+
+
+
+
+
 

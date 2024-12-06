@@ -230,7 +230,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>550</y>
+     <y>570</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -291,7 +291,7 @@
       <x>10</x>
       <y>20</y>
       <width>281</width>
-      <height>154</height>
+      <height>160</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -421,6 +421,19 @@
    </property>
    <property name="verticalHeaderFormat">
     <enum>QCalendarWidget::VerticalHeaderFormat::NoVerticalHeader</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Timer">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>510</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Timer</string>
    </property>
   </widget>
  </widget>

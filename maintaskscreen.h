@@ -5,10 +5,12 @@
 #include "currentuser.h"
 #include "largecalendar.h"
 #include "tasksettings.h"
+#include "timer.h"
 
 // Forward declaration of MainWindow to avoid circular dependency
 class MainWindow;
 class LargeCalendar;
+class timer;
 
 namespace Ui {
 class MainTaskScreen;
@@ -25,6 +27,7 @@ public:
     void setupUser(QString username); /*This allows you to carry the variable used at log in
                                         over to maintaskscreen.cpp and then assign it to currentUser*/
     void printCurrentUserTasks();
+    // ...
 
 private slots:
     void on_ClearCompleted_clicked();
@@ -47,6 +50,8 @@ private slots:
 
     void on_OpenCalBtn_clicked();
 
+    void on_Timer_clicked();
+
 signals:
     void dateSelected(const QDate &date); // Signal to emit when a date is selected
 
@@ -58,6 +63,10 @@ private:
     int selectedRowForCompletion; // Track selected row in tableWidget for completion
     int selectedRowForClear;      // Track selected row in tableWidget_2 for clearing
     QVector<Task> taskList;       // List of tasks
+    Timer *myTimer = nullptr; // Pointer to the timer, initialized to nullptr
+
+
 };
+
 
 #endif // MAINTASKSCREEN_H
