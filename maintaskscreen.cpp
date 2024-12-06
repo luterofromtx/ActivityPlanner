@@ -42,6 +42,11 @@ void MainTaskScreen::UpdateMainUI()
         addTaskToChecklist(task.getTaskname(), task.getDeadline(), task.getDescription());
     }
 
+    // Loop through each closed task and display it in the completed checklist
+    for (const Task &task : closedTasks) {
+        addTaskToCompleted(task.getTaskname(), task.getDeadline(), task.getDescription());
+    }
+
     // Loop through each closed task and display it in the completed tasks table
     for (const Task &task : closedTasks) {
         int row = ui->tableWidget_2->rowCount();
@@ -253,6 +258,36 @@ void MainTaskScreen::addTaskToChecklist(const QString &taskName,
 
     // Debug output
     qDebug() << "Task added to checklist: Name =" << taskName << ", Deadline =" << taskDeadline
+             << ", Description =" << taskDescription;
+}
+
+void MainTaskScreen::addTaskToCompleted(const QString &taskName,
+                        const QString &taskDeadline,
+                        const QString &taskDescription)
+{
+    // Insert a new row at the top of the completed task table
+    ui->tableWidget_2->insertRow(0);
+
+    // Create QTableWidgetItem instances for each column
+    QTableWidgetItem *nameItem = new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task"
+                                                                         : taskName);
+    QTableWidgetItem *deadlineItem = new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline"
+                                                                                 : taskDeadline);
+    QTableWidgetItem *descriptionItem = new QTableWidgetItem(
+        taskDescription.isEmpty() ? "No description" : taskDescription);
+
+    // Set the items to be non-editable
+    nameItem->setFlags(nameItem->flags() & ~Qt::ItemIsEditable);
+    deadlineItem->setFlags(deadlineItem->flags() & ~Qt::ItemIsEditable);
+    descriptionItem->setFlags(descriptionItem->flags() & ~Qt::ItemIsEditable);
+
+    // Add items to the table widget at row 0
+    ui->tableWidget_2->setItem(0, 0, nameItem);
+    ui->tableWidget_2->setItem(0, 1, deadlineItem);
+    ui->tableWidget_2->setItem(0, 2, descriptionItem);
+
+    // Debug output
+    qDebug() << "Task added to completed checklist: Name =" << taskName << ", Deadline =" << taskDeadline
              << ", Description =" << taskDescription;
 }
 
