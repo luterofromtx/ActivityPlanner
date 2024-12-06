@@ -1,7 +1,7 @@
 #include "largecalendar.h"
+#include <QDebug>
 #include <QMessageBox>
 #include <QTextCharFormat>
-#include <QDebug>
 #include "currentuser.h"
 #include "task.h"
 #include "ui_largecalendar.h"
@@ -71,15 +71,16 @@ void LargeCalendar::updateCalendarTaskDisplay()
 {
     // Create a QTextCharFormat to visually highlight task dates
     QTextCharFormat taskFormat;
-    taskFormat.setBackground(Qt::blue); // Set blue cause BLUEE BABYYY background for task dates
-    taskFormat.setForeground(Qt::black);  // Set text color to black
+    taskFormat.setBackground(Qt::blue);  // Set blue cause BLUEE BABYYY background for task dates
+    taskFormat.setForeground(Qt::black); // Set text color to black
     taskFormat.setFontWeight(QFont::Bold);
 
     // Iterate through all tasks and apply the format to their dates
     for (const Task &task : taskList) {
         QDate taskDate = QDate::fromString(task.getDeadline(), "yyyy-MM-dd");
         if (taskDate.isValid()) {
-            ui->calendarWidget->setDateTextFormat(taskDate, taskFormat); // Apply format to the calendar
+            ui->calendarWidget->setDateTextFormat(taskDate,
+                                                  taskFormat); // Apply format to the calendar
         }
     }
 }

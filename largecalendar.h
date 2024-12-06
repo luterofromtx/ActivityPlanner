@@ -3,8 +3,8 @@
 
 #include <QDate>
 #include <QDialog>
-#include <QVector>
 #include <QTextCharFormat>
+#include <QVector>
 #include "task.h"
 
 namespace Ui {
@@ -27,13 +27,11 @@ private slots:
     void on_calendarWidget_activated(const QDate &date);
 
 private:
-    Ui::LargeCalendar *ui;    // Pointer to the UI object that handles the UI LargeCalendar
+    Ui::LargeCalendar *ui; // Pointer to the UI object that handles the UI LargeCalendar
 
-    QVector<Task> taskList;    // List of Task objects, representing tasks and their deadlines
+    QVector<Task> taskList; // List of Task objects, representing tasks and their deadlines
 
-
-    void updateCalendarTaskDisplay();     // Updates the calendar to  highlight dates
-
+    void updateCalendarTaskDisplay(); // Updates the calendar to  highlight dates
 };
 
 #endif // LARGECALENDAR_H

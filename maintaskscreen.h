@@ -4,7 +4,6 @@
 #include <QDialog>
 #include "currentuser.h"
 #include "largecalendar.h"
-#include "notifications.h"
 #include "tasksettings.h"
 
 // Forward declaration of MainWindow to avoid circular dependency
@@ -42,10 +41,11 @@ private slots:
     void UpdateMainUI();
     void showTasksForDate(const QDate &date);
 
-
     void on_ClearAllTask_clicked();
 
     void on_CompleteAllTask_clicked();
+
+    void on_OpenCalBtn_clicked();
 
 signals:
     void dateSelected(const QDate &date); // Signal to emit when a date is selected
@@ -54,7 +54,6 @@ private:
     Ui::MainTaskScreen *ui;
     MainWindow *mainWindow;       // Pointer to MainWindow for navigation
     TaskSettings *taskSettings;   // Pointer to TaskSettings for task input
-    Notifications *notifications; // Pointer to Notifications settings UI
     LargeCalendar *largeCalendar; // Pointer to LargeCalendar UI
     int selectedRowForCompletion; // Track selected row in tableWidget for completion
     int selectedRowForClear;      // Track selected row in tableWidget_2 for clearing

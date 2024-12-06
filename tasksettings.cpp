@@ -2,7 +2,6 @@
 #include <QDebug>
 #include "ui_tasksettings.h"
 
-
 TaskSettings::TaskSettings(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TaskSettings)
@@ -24,8 +23,6 @@ void TaskSettings::on_SaveTaskSettingBtn_clicked(bool checked)
     emit taskSaved(taskName, taskDeadline, taskDescription);
 
     accept();
-
-
 }
 
 QString TaskSettings::getTaskname() const

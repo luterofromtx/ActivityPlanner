@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
+set(app_icon_resource_windows "Images.qrc")
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ActivityPlanner
         MANUAL_FINALIZATION
@@ -27,12 +28,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         maintaskscreen.h maintaskscreen.cpp maintaskscreen.ui
         tasksettings.h tasksettings.cpp tasksettings.ui
-        notifications.h notifications.cpp notifications.ui
+
 
         forgotpassword.h forgotpassword.cpp forgotpassword.ui
         largecalendar.h largecalendar.cpp largecalendar.ui
         currentuser.h currentuser.cpp
         task.h task.cpp
+        Images.qrc
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET ActivityPlanner APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

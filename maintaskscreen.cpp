@@ -1,16 +1,15 @@
 #include "maintaskscreen.h"
 #include <QDebug>
 #include <QFile>
-#include <QMessageBox> // For displaying validation warnings
+#include <QLineEdit>          // For handling QLineEdit input
+#include <QMessageBox>        // For displaying validation warnings
 #include <QRegularExpression> // For modern regex handling
-#include <QLineEdit>   // For handling QLineEdit input
 #include "currentuser.h"
 #include "largecalendar.h"
 #include "mainwindow.h"
 #include "task.h"
 #include "tasksettings.h"
 #include "ui_maintaskscreen.h"
-
 
 CurrentUser currentUser; // Global instance of CurrentUser to manage user tasks
 
@@ -67,6 +66,8 @@ MainTaskScreen::MainTaskScreen(MainWindow *mainWindow, QWidget *parent)
     ui->tableWidget->setHorizontalHeaderLabels(QStringList()
                                                << "Task Name" << "Deadline" << "Description");
 
+
+    ui->tableWidget_2->setHorizontalHeaderLabels(QStringList() << "Task Name" << "Deadline" << "Description");
     ui->tableWidget_2->setColumnCount(3);
     ui->tableWidget_2->setHorizontalHeaderLabels(QStringList()
                                                  << "Task Name" << "Deadline" << "Description");
@@ -232,9 +233,12 @@ void MainTaskScreen::addTaskToChecklist(const QString &taskName,
     ui->tableWidget->insertRow(0);
 
     // Create QTableWidgetItem instances for each column
-    QTableWidgetItem *nameItem = new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task" : taskName);
-    QTableWidgetItem *deadlineItem = new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline" : taskDeadline);
-    QTableWidgetItem *descriptionItem = new QTableWidgetItem(taskDescription.isEmpty() ? "No description" : taskDescription);
+    QTableWidgetItem *nameItem = new QTableWidgetItem(taskName.isEmpty() ? "Unnamed Task"
+                                                                         : taskName);
+    QTableWidgetItem *deadlineItem = new QTableWidgetItem(taskDeadline.isEmpty() ? "No deadline"
+                                                                                 : taskDeadline);
+    QTableWidgetItem *descriptionItem = new QTableWidgetItem(
+        taskDescription.isEmpty() ? "No description" : taskDescription);
 
     // Set the items to be non-editable
     nameItem->setFlags(nameItem->flags() & ~Qt::ItemIsEditable);
@@ -262,7 +266,11 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
     QRegularExpression dateRegex("^\\d{4}-\\d{2}-\\d{2}$");
     QRegularExpressionMatch match = dateRegex.match(taskDeadline);
     if (!match.hasMatch()) {
-        QMessageBox::warning(this, "Invalid Date Format", "Please enter the date in the format [The YEAR (YYYY) 4 digits- The MONTH (MM) 2 digits - The DAY (DD) (2 digits)]. Please include the dashes" );
+        QMessageBox::warning(
+            this,
+            "Invalid Date Format",
+            "Please enter the date in the format [The YEAR (YYYY) 4 digits- The MONTH (MM) 2 "
+            "digits - The DAY (DD) (2 digits)]. Please include the dashes");
         return; // Stop processing if the date format is invalid
     }
 
@@ -278,15 +286,10 @@ void MainTaskScreen::on_QuickAddBtn_clicked()
     ui->lineEditDesc->clear();
 }
 
-
-
-
-
 // Open notifications settings dialog
 void MainTaskScreen::on_SettingsBtn_clicked()
 {
-    notifications = new Notifications(this);
-    notifications->show();
+
 }
 
 // Handle clearing a selected completed task
@@ -370,8 +373,8 @@ void MainTaskScreen::on_calendarWidget_activated(const QDate &date)
     for (const Task &task : tasks) {
         if (task.getDeadline() == selectedDate) {
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
-            .arg(task.getTaskname())
-                .arg(task.getDescription());
+                               .arg(task.getTaskname())
+                               .arg(task.getDescription());
         }
     }
 
@@ -394,8 +397,8 @@ void MainTaskScreen::showTasksForDate(const QDate &date)
     for (const Task &task : tasks) {
         if (task.getDeadline() == selectedDate) {
             taskDetails += QString("Task: %1\nDescription: %2\n\n")
-            .arg(task.getTaskname())
-                .arg(task.getDescription());
+                               .arg(task.getTaskname())
+                               .arg(task.getDescription());
         }
     }
     if (taskDetails.isEmpty()) {
@@ -418,8 +421,6 @@ void MainTaskScreen::on_OpenCalenderBtn_clicked()
 void MainTaskScreen::on_ClearAllTask_clicked()
 {
     ui->tableWidget_2->setRowCount(0);
-
-
 }
 
 // Destructor for MainTaskScreen
@@ -428,8 +429,6 @@ MainTaskScreen::~MainTaskScreen()
     delete ui;            // Clean up UI elements
     delete largeCalendar; // Ensure LargeCalendar is deleted
 }
-
-
 
 void MainTaskScreen::on_CompleteAllTask_clicked()
 {
@@ -453,7 +452,8 @@ void MainTaskScreen::on_CompleteAllTask_clicked()
 
         QString taskName = taskNameItem->text();
         QString taskDeadline = taskDeadlineItem ? taskDeadlineItem->text() : "No deadline";
-        QString taskDescription = taskDescriptionItem ? taskDescriptionItem->text() : "No description";
+        QString taskDescription = taskDescriptionItem ? taskDescriptionItem->text()
+                                                      : "No description";
 
         // Insert the task at the top of the completed tasks table
         ui->tableWidget_2->insertRow(0);
@@ -473,3 +473,15 @@ void MainTaskScreen::on_CompleteAllTask_clicked()
 
     qDebug() << "All tasks have been moved to the completed tasks table.";
 }
+
+void MainTaskScreen::on_OpenCalBtn_clicked()
+{
+    QVector<Task> tasks = currentUser.getTasks(0);  // Grab open tasks for display
+    largeCalendar = new LargeCalendar(tasks, this); // Initialize LargeCalendar with tasks
+
+    // Connect LargeCalendar's date selection to showTasksForDate
+    connect(largeCalendar, &LargeCalendar::dateSelected, this, &MainTaskScreen::showTasksForDate);
+
+    largeCalendar->show(); // Display the LargeCalendar
+}
+

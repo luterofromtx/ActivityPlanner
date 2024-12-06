@@ -1,9 +1,9 @@
 #include "mainwindow.h"
+#include <QCheckBox>
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
-#include <QCheckBox>
 #include "./ui_mainwindow.h"
 #include "maintaskscreen.h"
 
@@ -20,7 +20,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 // Login button
 void MainWindow::on_LoginBtn_clicked()
 {
@@ -36,15 +35,15 @@ void MainWindow::on_LoginBtn_clicked()
     if (!root.exists("Users")) { //If 'Users' folder does not exist, meaning no users exist
         QMessageBox::critical(this, "Error", "Please create an account first.");
         return;
-    } else if(!userFile.exists()) { //If the user's file does not exist, meaning no existing user with username attempted
+    } else if (!userFile.exists()) { //If the user's file does not exist, meaning no existing user with username attempted
         QMessageBox::critical(this, "Error", "Invalid credentials. Please try again.");
         return;
-    } else if(!userFile.open(QIODevice::ReadOnly)){ //If user's file is valid but cannot be opened
+    } else if (!userFile.open(QIODevice::ReadOnly)) { //If user's file is valid but cannot be opened
         QMessageBox::critical(this,
                               "Error",
                               "Sorry, this user file got too weird so it did not open.");
         return;
-    } else if(password.size()==0) { //If no password was entered
+    } else if (password.size() == 0) { //If no password was entered
         QMessageBox::critical(this, "Error", "You must enter a password.");
         return;
     }
@@ -53,7 +52,7 @@ void MainWindow::on_LoginBtn_clicked()
         QTextStream stream(&userFile); //Parsing file
         while (!stream.atEnd()) {
             usernameCompare = stream.readLine(); //if username typed matches first line of user file
-             passwordCompare = stream.readLine();
+            passwordCompare = stream.readLine();
         }
         if (usernameCompare == username
             && passwordCompare == password) //If the credentials ARE valid
@@ -63,10 +62,10 @@ void MainWindow::on_LoginBtn_clicked()
             userFile.close();
             successfulLoginUsername = username; //defined in MainWindow.h
 
-            if(ui->RememberMeCheck->isChecked()) //If the user checked "Remember Me"
+            if (ui->RememberMeCheck->isChecked()) //If the user checked "Remember Me"
             {
                 RememberUser();
-            } else {                            //If the user left "Remember Me" unchecked
+            } else { //If the user left "Remember Me" unchecked
                 ForgetUser();
             }
 
@@ -107,7 +106,7 @@ void MainWindow::RememberUser()
     QString rememberUserFile = "./Users/RememberMe.txt";
     QFile file(rememberUserFile);
 
-    if(!file.open(QIODevice::ReadWrite)) { //RememberMe.txt could not be opened
+    if (!file.open(QIODevice::ReadWrite)) { //RememberMe.txt could not be opened
         qCritical() << rememberUserFile << ": User too forgettable!";
         qCritical() << file.errorString();
     } else {
@@ -124,7 +123,7 @@ void MainWindow::ForgetUser()
     QString rememberUserFile = "./Users/RememberMe.txt";
     QFile file(rememberUserFile);
 
-    if(!file.open(QIODevice::ReadWrite)) { //RememberMe.txt could not be opened
+    if (!file.open(QIODevice::ReadWrite)) { //RememberMe.txt could not be opened
         qCritical() << rememberUserFile << ": User too forgettable!";
         qCritical() << file.errorString();
     } else {
@@ -140,21 +139,21 @@ void MainWindow::CheckIfRemembered()
     QString rememberUserFile = "./Users/RememberMe.txt";
     QFile file(rememberUserFile);
 
-    if(!file.open(QIODevice::ReadOnly)) { //RememberMe.txt could not be opened
+    if (!file.open(QIODevice::ReadOnly)) { //RememberMe.txt could not be opened
         qCritical() << rememberUserFile << ": User too forgettable!";
         qCritical() << file.errorString();
-    } else if(file.size()==0) {
+    } else if (file.size() == 0) {
         qDebug() << "No user was remembered. Starting with empty text fields";
     } else {
         QTextStream stream(&file);
         QString RememberedUsername = stream.readLine();
         file.close();
 
-        ui->lineEditUsername->setText(RememberedUsername); //Places the username stored in RememberMe.txt in ui->LineEditUsername
+        ui->lineEditUsername->setText(
+            RememberedUsername); //Places the username stored in RememberMe.txt in ui->LineEditUsername
 
         //Make sure "Remember Me" is still checked if there is a remembered user
-        if(!ui->RememberMeCheck->isChecked())
-        {
+        if (!ui->RememberMeCheck->isChecked()) {
             ui->RememberMeCheck->setChecked(true);
         }
     }

@@ -13,7 +13,8 @@ void CurrentUser::addTask(Task newTask)
 }
 
 // Add new task to completed task table
-void CurrentUser::newCloseTask(Task newTask) {
+void CurrentUser::newCloseTask(Task newTask)
+{
     closedTasks.append(newTask);
 }
 
@@ -76,19 +77,23 @@ void CurrentUser::UpdateUser(QString username1, QVector<Task> openTasks1, QVecto
     closedTasks = closedTasks1;
 }
 
-QString CurrentUser::getUsername() {
+QString CurrentUser::getUsername()
+{
     return username;
 }
 
-void CurrentUser::setUsername(QString currentUsername) {
+void CurrentUser::setUsername(QString currentUsername)
+{
     username = currentUsername;
 }
 
-void CurrentUser::clearOpenTasks(){
+void CurrentUser::clearOpenTasks()
+{
     openTasks.clear();
 }
 
-void CurrentUser::clearClosedTasks(){
+void CurrentUser::clearClosedTasks()
+{
     closedTasks.clear();
 }
 
