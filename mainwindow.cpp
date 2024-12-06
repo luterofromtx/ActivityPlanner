@@ -72,7 +72,7 @@ void MainWindow::on_LoginBtn_clicked()
             this->hide();
             MainTaskScreen *taskScreen = new MainTaskScreen(this);
             taskScreen->show();
-
+            taskScreen->setWindowTitle("ActivityPlanner");
             taskScreen->setupUser(usernameCompare);
             taskScreen->printCurrentUserTasks();
 

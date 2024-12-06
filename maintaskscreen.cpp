@@ -514,7 +514,7 @@ void MainTaskScreen::on_OpenCalBtn_clicked()
 {
     QVector<Task> tasks = currentUser.getTasks(0);  // Grab open tasks for display
     largeCalendar = new LargeCalendar(tasks, this); // Initialize LargeCalendar with tasks
-
+    largeCalendar->setWindowTitle("ActivityPlanner");
     // Connect LargeCalendar's date selection to showTasksForDate
     connect(largeCalendar, &LargeCalendar::dateSelected, this, &MainTaskScreen::showTasksForDate);
 

@@ -19,15 +19,14 @@ int main(int argc, char *argv[])
 
 
     QFile file("Cstartpage.qss");
-    QFile file("Webmas.qss");
-     */
+    QFile file("Webmas.qss"); */
 
     QFile file("../../Cstartpage.qss");
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String(file.readAll());
 
     qApp->setStyleSheet(styleSheet);
-
+    w.setWindowTitle("ActivityPlanner");
     w.show();
     return a.exec();
 }
